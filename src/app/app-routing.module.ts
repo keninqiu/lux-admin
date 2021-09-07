@@ -8,6 +8,7 @@ import {
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import { AuthComponent } from './auth/auth.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,11 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
+    loadChildren: () => import('./auth/auth.module')
+      .then(m => m.AuthModule),
+  },  
+  {
+    path: 'auth2',
     component: NbAuthComponent,
     children: [
       {
