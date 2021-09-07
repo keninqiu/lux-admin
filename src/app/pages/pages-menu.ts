@@ -8,9 +8,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'FEATURES',
+    title: '基本表',
+    icon: 'lock-outline',
+    children: [
+      {
+        title: '国家',
+        link: 'basic/countries',
+      },
+    ]
+  }
+  /*
+  {
+    title: 'BASIC',
     group: true,
   },
+
+  
   {
     title: 'Auth',
     icon: 'lock-outline',
@@ -33,4 +46,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
+  */
 ];

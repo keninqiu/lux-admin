@@ -13,6 +13,11 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
+      path: 'basic',
+      loadChildren: () => import('./basic/basic.module')
+        .then(m => m.BasicModule),
+    },
+    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',

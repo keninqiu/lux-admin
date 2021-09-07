@@ -21,6 +21,13 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 
+import { ApiService } from './services/api.service';
+import { CountryService } from './services/country.service';
+import { AuthService } from './services/auth2.service';
+import { NbTokenService } from './services/token/token.service';
+import { NbTokenLocalStorage, NbTokenStorage } from './services/token/token-storage';
+import { NbAuthTokenParceler, NB_AUTH_FALLBACK_TOKEN } from './services/token/token-parceler';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -39,6 +46,11 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+  ],
+  providers: [
+    ApiService,
+    CountryService,
+    AuthService
   ],
   bootstrap: [AppComponent],
 })

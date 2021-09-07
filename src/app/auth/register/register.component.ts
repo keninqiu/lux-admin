@@ -5,6 +5,7 @@
  */
  import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
  import { Router } from '@angular/router';
+import { AuthService } from 'app/services/auth2.service';
 
  @Component({
    selector: 'nb-register',
@@ -24,6 +25,7 @@
    user: any = {};
  
    constructor(
+     private authServ: AuthService,
                protected cd: ChangeDetectorRef,
                protected router: Router) {
  
@@ -35,7 +37,12 @@
    register(): void {
      this.errors = this.messages = [];
      this.submitted = true;
-
+     console.log('this.user==', this.user);
+     this.authServ.signUp(this.user).subscribe(
+       (ret: any) => {
+         console.log('ret==', ret);
+       }
+     );
      /*
      this.service.register(this.strategy, this.user).subscribe((result: NbAuthResult) => {
        this.submitted = false;
