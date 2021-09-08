@@ -13,6 +13,7 @@ export class CountriesComponent {
 
 
   settings = {
+    actions: { columnTitle: '操作'},
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -31,15 +32,15 @@ export class CountriesComponent {
     },
     columns: {
       name: {
-        title: 'Name',
+        title: '名称',
         type: 'string',
       },
       code: {
-        title: 'Code',
+        title: '代码',
         type: 'string',
       },
       currencyCode: {
-        title: 'Currency code',
+        title: '货币',
         type: 'string',
       },
     },
@@ -56,11 +57,9 @@ export class CountriesComponent {
   }
 
   onCreateConfirm(event): void {
-    console.log('event in onCreateConfirm=', event);
     const data = event.newData;
     this.countryServ.add(data).subscribe(
       (ret: any) => {
-        console.log('ret in add country = ', ret);
         event.confirm.resolve();
       },
       (error: any) => {
@@ -70,25 +69,21 @@ export class CountriesComponent {
   }
 
   onEditConfirm(event): void {
-    console.log('event in onEditConfirm=', event);
     const data = event.newData;
     const id = data._id;
    
     this.countryServ.update(id, data).subscribe(
       (ret: any) => {
-        console.log('ret in update country = ', ret);
         event.confirm.resolve();
       },
       (error: any) => {
         event.confirm.reject();
       }
     );
-    
   }
 
   onDeleteConfirm(event): void {
-    console.log('event in onDeleteConfirm=', event);
-    if (window.confirm('Are you sure you want to delete?')) {
+    if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;
       this.countryServ.deleteMany([id]).subscribe(

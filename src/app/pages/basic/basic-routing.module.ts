@@ -5,6 +5,13 @@ import { BasicComponent } from './basic.component';
 import { CountriesComponent } from './countries/countries.component';
 import { StatesComponent } from './states/states.component';
 import { CitiesComponent } from './cities/cities.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { DegreesComponent } from './degrees/degrees.component';
+import { IndustriesComponent } from './industries/industries.component';
+import { SchoolsComponent } from './schools/schools.component';
+import { CertificationsComponent } from './certifications/certifications.component';
+import { SkillsComponent } from './skills/skills.component';
+import { CompaniesComponent } from './companies/companies.component';
 
 const routes: Routes = [{
   path: '',
@@ -21,6 +28,34 @@ const routes: Routes = [{
     {
       path: 'cities',
       component: CitiesComponent,
+    },
+    {
+      path: 'jobs',
+      component: JobsComponent,
+    },
+    {
+      path: 'companies',
+      component: CompaniesComponent,
+    },
+    {
+      path: 'degrees',
+      component: DegreesComponent,
+    },
+    {
+      path: 'industries',
+      component: IndustriesComponent,
+    },
+    {
+      path: 'schools',
+      component: SchoolsComponent,
+    },
+    {
+      path: 'certifications',
+      component: CertificationsComponent,
+    },
+    {
+      path: 'skills',
+      component: SkillsComponent,
     },
   ],
 }];

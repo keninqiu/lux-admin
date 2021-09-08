@@ -28,6 +28,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: 'basic/jobs',
       },
       {
+        title: '学校',
+        link: 'basic/schools',
+      },
+      {
         title: '公司',
         link: 'basic/companies',
       },

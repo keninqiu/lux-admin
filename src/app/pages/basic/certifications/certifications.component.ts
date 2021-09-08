@@ -23,6 +23,7 @@ export class CertificationsComponent {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -30,7 +31,7 @@ export class CertificationsComponent {
     },
     columns: {
       name: {
-        title: 'Name',
+        title: '名称',
         type: 'string',
       }
     },
@@ -47,11 +48,9 @@ export class CertificationsComponent {
   }
 
   onCreateConfirm(event): void {
-    console.log('event in onCreateConfirm=', event);
     const data = event.newData;
     this.certificationServ.add(data).subscribe(
       (ret: any) => {
-        console.log('ret in add country = ', ret);
         event.confirm.resolve();
       },
       (error: any) => {
@@ -60,9 +59,34 @@ export class CertificationsComponent {
     );
   }
 
+  onEditConfirm(event): void {
+    const data = event.newData;
+    const id = data._id;
+   
+    this.certificationServ.update(id, data).subscribe(
+      (ret: any) => {
+        const newData = event.newData;
+        event.confirm.resolve(newData);
+      },
+      (error: any) => {
+        event.confirm.reject();
+      }
+    );
+    
+  }
+
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+    if (window.confirm('确定删除吗?')) {
+      const data = event.data;
+      const id = data._id;
+      this.certificationServ.deleteMany([id]).subscribe(
+        (ret: any) => {
+          event.confirm.resolve();
+        },
+        (error: any) => {
+          event.confirm.reject();
+        }
+      );
     } else {
       event.confirm.reject();
     }

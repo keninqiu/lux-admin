@@ -22,6 +22,7 @@ export class SkillsComponent {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -29,7 +30,7 @@ export class SkillsComponent {
     },
     columns: {
       name: {
-        title: 'Name',
+        title: '名称',
         type: 'string',
       }
     },
@@ -59,9 +60,34 @@ export class SkillsComponent {
     );
   }
 
+  onEditConfirm(event): void {
+    const data = event.newData;
+    const id = data._id;
+   
+    this.skillServ.update(id, data).subscribe(
+      (ret: any) => {
+        const newData = event.newData;
+        event.confirm.resolve(newData);
+      },
+      (error: any) => {
+        event.confirm.reject();
+      }
+    );
+    
+  }
+
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+    if (window.confirm('确定删除吗?')) {
+      const data = event.data;
+      const id = data._id;
+      this.skillServ.deleteMany([id]).subscribe(
+        (ret: any) => {
+          event.confirm.resolve();
+        },
+        (error: any) => {
+          event.confirm.reject();
+        }
+      );
     } else {
       event.confirm.reject();
     }

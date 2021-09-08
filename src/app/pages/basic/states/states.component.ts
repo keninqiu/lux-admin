@@ -25,6 +25,7 @@ export class StatesComponent {
         this.countries = countries;
         const countryList = countries.map(item => {return {value: item._id, title: item.name};});
         this.settings = {
+          actions: { columnTitle: '操作'},
           add: {
             addButtonContent: '<i class="nb-plus"></i>',
             createButtonContent: '<i class="nb-checkmark"></i>',
@@ -43,14 +44,22 @@ export class StatesComponent {
           },
           columns: {
             name: {
-              title: 'Name',
+              title: '名称',
               type: 'string',
             },
+            code: {
+              title: '代码',
+              type: 'string'
+            },
             country: {
-              title: 'Country',
+              title: '国家',
               type: 'html',
               valuePrepareFunction: (cell, row) => { 
-                return this.countries.filter(item => item._id == cell)[0].name;
+                const theCountry = this.countries.filter(item => item._id == cell);
+                if(theCountry && theCountry.length > 0) {
+                  return theCountry[0].name;
+                }
+                return cell;
               },
               editor: {
                 type: 'list',
@@ -58,8 +67,6 @@ export class StatesComponent {
                   list: countryList,
                 },
               },
-
-
             },
           },
         };
@@ -79,7 +86,6 @@ export class StatesComponent {
   }
 
   onCreateConfirm(event): void {
-    console.log('event in onCreateConfirm=', event);
     const data = event.newData;
     this.stateServ.add(data).subscribe(
       (ret: any) => {
@@ -93,11 +99,7 @@ export class StatesComponent {
     );
   }
 
-  onEdit(event): void {
-    console.log('event.=', event);
-  }
   onEditConfirm(event): void {
-    console.log('event in onEditConfirm=', event);
     const data = event.newData;
     const id = data._id;
    
@@ -115,7 +117,7 @@ export class StatesComponent {
   }
 
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
+    if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;
       this.stateServ.deleteMany([id]).subscribe(

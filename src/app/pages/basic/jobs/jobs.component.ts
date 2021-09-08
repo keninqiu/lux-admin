@@ -12,6 +12,7 @@ import { JobService } from '../../../services/job.service';
 export class JobsComponent {
 
   settings = {
+    actions: { columnTitle: '操作'},
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -22,6 +23,7 @@ export class JobsComponent {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -29,7 +31,7 @@ export class JobsComponent {
     },
     columns: {
       name: {
-        title: 'Name',
+        title: '名称',
         type: 'string',
       }
     },
@@ -59,9 +61,32 @@ export class JobsComponent {
     );
   }
 
+  onEditConfirm(event): void {
+    const data = event.newData;
+    const id = data._id;
+   
+    this.jobServ.update(id, data).subscribe(
+      (ret: any) => {
+        event.confirm.resolve();
+      },
+      (error: any) => {
+        event.confirm.reject();
+      }
+    );
+  }
+
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+    if (window.confirm('确定删除吗?')) {
+      const data = event.data;
+      const id = data._id;
+      this.jobServ.deleteMany([id]).subscribe(
+        (ret: any) => {
+          event.confirm.resolve();
+        },
+        (error: any) => {
+          event.confirm.reject();
+        }
+      );
     } else {
       event.confirm.reject();
     }
