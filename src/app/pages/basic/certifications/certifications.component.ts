@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 
-import { City } from '../../../interfaces/city.interface';
-import { CityService } from '../../../services/city.service';
+import { Certification } from '../../../interfaces/certification.interface';
+import { CertificationService } from '../../../services/certification.service';
 
 @Component({
-  selector: 'ngx-cities',
-  templateUrl: './cities.component.html',
-  styleUrls: ['./cities.component.scss']
+  selector: 'certifications',
+  templateUrl: './certifications.component.html',
+  styleUrls: ['./certifications.component.scss']
 })
-export class CitiesComponent {
+export class CertificationsComponent {
 
 
   settings = {
@@ -32,24 +32,16 @@ export class CitiesComponent {
       name: {
         title: 'Name',
         type: 'string',
-      },
-      code: {
-        title: 'Code',
-        type: 'string',
-      },
-      state: {
-        title: 'State',
-        type: 'string',
-      },
+      }
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private cityServ: CityService) {
-    this.cityServ.getAll().subscribe(
-      (cities: City[]) => {
-        this.source.load(cities);
+  constructor(private certificationServ: CertificationService) {
+    this.certificationServ.getAll().subscribe(
+      (certifications: Certification[]) => {
+        this.source.load(certifications);
       }
     );
   }
@@ -57,7 +49,7 @@ export class CitiesComponent {
   onCreateConfirm(event): void {
     console.log('event in onCreateConfirm=', event);
     const data = event.newData;
-    this.cityServ.add(data).subscribe(
+    this.certificationServ.add(data).subscribe(
       (ret: any) => {
         console.log('ret in add country = ', ret);
         event.confirm.resolve();

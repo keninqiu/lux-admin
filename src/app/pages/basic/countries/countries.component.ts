@@ -23,6 +23,7 @@ export class CountriesComponent {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -33,8 +34,8 @@ export class CountriesComponent {
         title: 'Name',
         type: 'string',
       },
-      iso: {
-        title: 'ISO',
+      code: {
+        title: 'Code',
         type: 'string',
       },
       currencyCode: {
@@ -60,13 +61,45 @@ export class CountriesComponent {
     this.countryServ.add(data).subscribe(
       (ret: any) => {
         console.log('ret in add country = ', ret);
+        event.confirm.resolve();
+      },
+      (error: any) => {
+        event.confirm.reject();
       }
     );
   }
 
+  onEditConfirm(event): void {
+    console.log('event in onEditConfirm=', event);
+    const data = event.newData;
+    const id = data._id;
+   
+    this.countryServ.update(id, data).subscribe(
+      (ret: any) => {
+        console.log('ret in update country = ', ret);
+        event.confirm.resolve();
+      },
+      (error: any) => {
+        event.confirm.reject();
+      }
+    );
+    
+  }
+
   onDeleteConfirm(event): void {
+    console.log('event in onDeleteConfirm=', event);
     if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+      const data = event.data;
+      const id = data._id;
+      this.countryServ.deleteMany([id]).subscribe(
+        (ret: any) => {
+          event.confirm.resolve();
+        },
+        (error: any) => {
+          event.confirm.reject();
+        }
+      );
+      
     } else {
       event.confirm.reject();
     }

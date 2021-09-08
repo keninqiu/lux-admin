@@ -22,11 +22,17 @@ import {
 } from '@nebular/theme';
 
 import { ApiService } from './services/api.service';
-import { CountryService } from './services/country.service';
 import { AuthService } from './services/auth2.service';
-import { NbTokenService } from './services/token/token.service';
-import { NbTokenLocalStorage, NbTokenStorage } from './services/token/token-storage';
-import { NbAuthTokenParceler, NB_AUTH_FALLBACK_TOKEN } from './services/token/token-parceler';
+import { CountryService } from './services/country.service';
+import { StateService } from './services/state.service';
+import { CityService } from './services/city.service';
+import { CertificationService } from './services/certification.service';
+import { CompanyService } from './services/company.service';
+import { DegreeService } from './services/degree.service';
+import { IndustryService } from './services/industry.service';
+import { JobService } from './services/job.service';
+import { SchoolService } from './services/school.service';
+import { SkillService } from './services/skill.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,8 +55,17 @@ import { NbAuthTokenParceler, NB_AUTH_FALLBACK_TOKEN } from './services/token/to
   ],
   providers: [
     ApiService,
+    AuthService,
     CountryService,
-    AuthService
+    StateService,
+    CityService,
+    CertificationService,
+    CompanyService,
+    DegreeService,
+    IndustryService,
+    JobService,
+    SchoolService,
+    SkillService
   ],
   bootstrap: [AppComponent],
 })

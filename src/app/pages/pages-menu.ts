@@ -15,6 +15,38 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: '国家',
         link: 'basic/countries',
       },
+      {
+        title: '州/省',
+        link: 'basic/states',
+      },
+      {
+        title: '城市',
+        link: 'basic/cities',
+      },
+      {
+        title: '职位',
+        link: 'basic/jobs',
+      },
+      {
+        title: '公司',
+        link: 'basic/companies',
+      },
+      {
+        title: '学位',
+        link: 'basic/degrees',
+      },
+      {
+        title: '行业',
+        link: 'basic/industries',
+      },
+      {
+        title: '证书',
+        link: 'basic/certifications',
+      },
+      {
+        title: '技能',
+        link: 'basic/skills',
+      },
     ]
   }
   /*

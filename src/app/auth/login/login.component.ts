@@ -43,7 +43,9 @@ import { AuthService } from '../../services/auth2.service';
      this.submitted = true;
      this.authServ.login(this.user).subscribe(
          (ret: any) => {
-             console.log('ret===', ret);
+          const token = ret.token;
+          localStorage.setItem('token', token);
+          this.router.navigate(['/pages']);
          }
      );
    }

@@ -1,6 +1,6 @@
 import { Entity } from './entity.interface';
-export interface Country extends Entity {
+export interface State extends Entity {
     name: string,
     code: string,
-    currencyCode: string
+    country: string
 }

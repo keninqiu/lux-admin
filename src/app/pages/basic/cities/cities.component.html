@@ -1,1 +1,15 @@
-<p>cities works!</p>
+<nb-card>
+    <nb-card-header>
+      城市
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table 
+      [settings]="settings" 
+      [source]="source" 
+      (createConfirm)="onCreateConfirm($event)"
+      (deleteConfirm)="onDeleteConfirm($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+</nb-card>
+  

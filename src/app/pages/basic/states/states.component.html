@@ -1,10 +1,10 @@
 <nb-card>
     <nb-card-header>
-      国家
+      州/省
     </nb-card-header>
   
     <nb-card-body>
-      <ng2-smart-table 
+      <ng2-smart-table *ngIf="settings"
       [settings]="settings" 
       [source]="source" 
       (createConfirm)="onCreateConfirm($event)"
