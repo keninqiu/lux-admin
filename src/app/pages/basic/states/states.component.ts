@@ -1,11 +1,9 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ViewCell } from 'ng2-smart-table';
 import { State } from '../../../interfaces/state.interface';
 import { Country } from '../../../interfaces/country.interface';
 import { StateService } from '../../../services/state.service';
 import { CountryService } from '../../../services/country.service';
-import { CustomRenderComponent } from './custom-render.component';
 
 
 @Component({
@@ -25,9 +23,7 @@ export class StatesComponent {
     this.countryServ.getAll().subscribe(
       (countries: Country[]) => {
         this.countries = countries;
-        console.log('countries=', countries);
         const countryList = countries.map(item => {return {value: item._id, title: item.name};});
-        console.log('this.countries==', this.countries);
         this.settings = {
           add: {
             addButtonContent: '<i class="nb-plus"></i>',
@@ -53,32 +49,16 @@ export class StatesComponent {
             country: {
               title: 'Country',
               type: 'html',
+              valuePrepareFunction: (cell, row) => { 
+                return this.countries.filter(item => item._id == cell)[0].name;
+              },
               editor: {
                 type: 'list',
                 config: {
                   list: countryList,
                 },
               },
-              //renderComponent: CustomRenderComponent
-              /*
-              type: 'custom',
-              title: 'Country',
-              editor: {
-                type: 'list',
-                config:
-                {
-                  list: this.countries
-                },
-              },
-              filter: {
-                type: 'list',
-                config: {
-                  selectText: 'Select country',
-                  list: this.countries
-                }  
-              },
-              renderComponent: CustomRenderComponent
-              */
+
 
             },
           },
@@ -113,6 +93,9 @@ export class StatesComponent {
     );
   }
 
+  onEdit(event): void {
+    console.log('event.=', event);
+  }
   onEditConfirm(event): void {
     console.log('event in onEditConfirm=', event);
     const data = event.newData;
