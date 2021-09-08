@@ -85,39 +85,26 @@ export class StatesComponent {
         };
 
 
-        this.stateServ.getAll().subscribe(
-          (states: State[]) => {
-            const newStates = [];
-            for(let i = 0; i < states.length; i++) {
-              const state = states[i];
-              const newState = {
-                _id: state._id,
-                name: state.name,
-                country: this.countries.filter(country => country._id == state.country)[0].name
-              }
-              newStates.push(newState);
-            }
-            this.source.load(newStates);
-          }
-        );
+
     
       }
     );
 
-
+    this.stateServ.getAll().subscribe(
+      (states: State[]) => {
+        this.source.load(states);
+      }
+    );
 
   }
 
   onCreateConfirm(event): void {
     console.log('event in onCreateConfirm=', event);
     const data = event.newData;
-    const theCountry = this.countries.filter(item => item._id == data.country)[0];
-    data.country = theCountry._id;
     this.stateServ.add(data).subscribe(
       (ret: any) => {
         console.log('ret in add country = ', ret);
         const newData = event.newData;
-        newData.country = this.countries.filter(country => country._id == newData.country)[0].name;
         event.confirm.resolve(newData);
       },
       (error: any) => {
@@ -135,7 +122,6 @@ export class StatesComponent {
       (ret: any) => {
         console.log('ret in update country = ', ret);
         const newData = event.newData;
-        newData.country = this.countries.filter(country => country._id == newData.country)[0].name;
         event.confirm.resolve(newData);
       },
       (error: any) => {
