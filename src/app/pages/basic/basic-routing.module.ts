@@ -12,6 +12,7 @@ import { SchoolsComponent } from './schools/schools.component';
 import { CertificationsComponent } from './certifications/certifications.component';
 import { SkillsComponent } from './skills/skills.component';
 import { CompaniesComponent } from './companies/companies.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 const routes: Routes = [{
   path: '',
@@ -28,6 +29,10 @@ const routes: Routes = [{
     {
       path: 'cities',
       component: CitiesComponent,
+    },
+    {
+      path: 'categories',
+      component: CategoriesComponent,
     },
     {
       path: 'jobs',
@@ -57,6 +62,10 @@ const routes: Routes = [{
       path: 'skills',
       component: SkillsComponent,
     },
+    {
+      path: 'categories',
+      component: CategoriesComponent,
+    },
   ],
 }];
 
@@ -70,4 +79,13 @@ export const routedComponents = [
   BasicComponent,
   CountriesComponent,
   CitiesComponent,
+  StatesComponent,
+  JobsComponent,
+  CompaniesComponent,
+  SchoolsComponent,
+  DegreesComponent,
+  CertificationsComponent,
+  SkillsComponent,
+  IndustriesComponent,
+  CategoriesComponent,
 ];

@@ -5,6 +5,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { School } from '../../../interfaces/school.interface';
 import { SchoolService } from '../../../services/school.service';
 import { City } from '../../../interfaces/city.interface';
+import { CategoryService } from 'app/services/category.service';
+import { Category } from 'app/interfaces/category.interface';
 
 @Component({
   selector: 'schools',
@@ -13,66 +15,80 @@ import { City } from '../../../interfaces/city.interface';
 })
 export class SchoolsComponent {
 
+  categories: any;
   cities: any;
   settings: any;
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private schoolServ: SchoolService, private cityServ: CityService) {
+  constructor(
+    private schoolServ: SchoolService, 
+    private categoryServ: CategoryService,
+    private cityServ: CityService) {
+
+    this.categoryServ.getAllByType('School').subscribe(
+      (categories: Category[]) => {
+        this.categories = categories;
+        const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
 
 
-    this.cityServ.getAll().subscribe(
-      (cities: City[]) => {
-        this.cities = cities;
-        const cityList = cities.map(item => {return {value: item._id, title: item.name};});
-
-        this.settings = {
-          actions: { columnTitle: '操作'},
-          add: {
-            addButtonContent: '<i class="nb-plus"></i>',
-            createButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmCreate: true
-          },
-          edit: {
-            editButtonContent: '<i class="nb-edit"></i>',
-            saveButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmSave: true
-          },
-          delete: {
-            deleteButtonContent: '<i class="nb-trash"></i>',
-            confirmDelete: true,
-          },
-          columns: {
-            name: {
-              title: '名称',
-              type: 'string',
-            },
-            city: {
-              title: '城市',
-              type: 'html',
-              valuePrepareFunction: (cell, row) => { 
-                const theState = this.cities.filter(item => item._id == cell);
-                if(theState && theState.length > 0) {
-                  return theState[0].name;
-                }
-                return cell;
+        this.cityServ.getAll().subscribe(
+          (cities: City[]) => {
+            this.cities = cities;
+            const cityList = cities.map(item => {return {value: item._id, title: item.name};});
+    
+            this.settings = {
+              actions: { columnTitle: '操作'},
+              add: {
+                addButtonContent: '<i class="nb-plus"></i>',
+                createButtonContent: '<i class="nb-checkmark"></i>',
+                cancelButtonContent: '<i class="nb-close"></i>',
+                confirmCreate: true
               },
-              editor: {
-                type: 'list',
-                config: {
-                  list: cityList,
+              edit: {
+                editButtonContent: '<i class="nb-edit"></i>',
+                saveButtonContent: '<i class="nb-checkmark"></i>',
+                cancelButtonContent: '<i class="nb-close"></i>',
+                confirmSave: true
+              },
+              delete: {
+                deleteButtonContent: '<i class="nb-trash"></i>',
+                confirmDelete: true,
+              },
+              columns: {
+                name: {
+                  title: '名称',
+                  type: 'string',
+                },
+                category: {
+                  title: '类别',
+                  type: 'html',
+                  valuePrepareFunction: (cell, row) => { 
+                    
+                    const theCategory = this.categories.filter(item => item._id == cell);
+                    if(theCategory && theCategory.length > 0) {
+                      return theCategory[0].name;
+                    }
+                   
+                    return cell;
+                  },
+                  editor: {
+                    type: 'list',
+                    config: {
+                      list: categoryList,
+                    },
+                  },
                 },
               },
-            },
-          },
-        };
-
-
+            };
+    
+    
+        
+          }
+        );    
     
       }
-    );    
+    );
 
 
     this.schoolServ.getAll().subscribe(

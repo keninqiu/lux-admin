@@ -47,12 +47,16 @@ export class StatesComponent {
               title: '名称',
               type: 'string',
             },
-            code: {
-              title: '代码',
+            type: {
+              title: '类型',
+              type: 'string'
+            },
+            location: {
+              title: '位置',
               type: 'string'
             },
             country: {
-              title: '国家',
+              title: '国家/地区',
               type: 'html',
               valuePrepareFunction: (cell, row) => { 
                 const theCountry = this.countries.filter(item => item._id == cell);

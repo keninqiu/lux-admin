@@ -12,7 +12,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'lock-outline',
     children: [
       {
-        title: '国家',
+        title: '国家/地区',
         link: 'basic/countries',
       },
       {
@@ -22,6 +22,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: '城市',
         link: 'basic/cities',
+      },
+      {
+        title: '类别',
+        link: 'basic/categories',
       },
       {
         title: '职位',
