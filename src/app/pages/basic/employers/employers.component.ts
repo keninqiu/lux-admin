@@ -2,29 +2,31 @@ import { Component } from '@angular/core';
 import { CityService } from 'app/services/city.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
-import { Company } from '../../../interfaces/company.interface';
-import { CompanyService } from '../../../services/company.service';
+import { Employer } from '../../../interfaces/employer.interface';
+import { EmployerService } from '../../../services/employer.service';
 import { City } from '../../../interfaces/city.interface';
+import { CategoryService } from 'app/services/category.service';
+import { Category } from 'app/interfaces/category.interface';
 
 @Component({
-  selector: 'companies',
-  templateUrl: './companies.component.html',
-  styleUrls: ['./companies.component.scss']
+  selector: 'employers',
+  templateUrl: './employers.component.html',
+  styleUrls: ['./employers.component.scss']
 })
-export class CompaniesComponent {
-
+export class EmployersComponent {
+  categories: any;
   cities: any;
   settings: any;
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private companyServ: CompanyService, private cityServ: CityService) {
+  constructor(private employerServ: EmployerService, private categoryServ: CategoryService) {
 
 
-    this.cityServ.getAll().subscribe(
-      (cities: City[]) => {
-        this.cities = cities;
-        const cityList = cities.map(item => {return {value: item._id, title: item.name};});
+    this.categoryServ.getAllByType('Employer').subscribe(
+      (categories: Category[]) => {
+        this.categories = categories;
+        const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
 
         this.settings = {
           actions: { columnTitle: '操作'},
@@ -49,20 +51,22 @@ export class CompaniesComponent {
               title: '名称',
               type: 'string',
             },
-            city: {
-              title: '城市',
+            category: {
+              title: '类别',
               type: 'html',
               valuePrepareFunction: (cell, row) => { 
-                const theState = this.cities.filter(item => item._id == cell);
-                if(theState && theState.length > 0) {
-                  return theState[0].name;
+                
+                const theCategory = this.categories.filter(item => item._id == cell);
+                if(theCategory && theCategory.length > 0) {
+                  return theCategory[0].name;
                 }
+              
                 return cell;
               },
               editor: {
                 type: 'list',
                 config: {
-                  list: cityList,
+                  list: categoryList,
                 },
               },
             },
@@ -75,9 +79,9 @@ export class CompaniesComponent {
     );    
 
 
-    this.companyServ.getAll().subscribe(
-      (certifications: Company[]) => {
-        this.source.load(certifications);
+    this.employerServ.getAll().subscribe(
+      (employers: Employer[]) => {
+        this.source.load(employers);
       }
     );
   }
@@ -85,7 +89,7 @@ export class CompaniesComponent {
   onCreateConfirm(event): void {
     console.log('event in onCreateConfirm=', event);
     const data = event.newData;
-    this.companyServ.add(data).subscribe(
+    this.employerServ.add(data).subscribe(
       (ret: any) => {
         console.log('ret in add country = ', ret);
         event.confirm.resolve();
@@ -100,7 +104,7 @@ export class CompaniesComponent {
     const data = event.newData;
     const id = data._id;
    
-    this.companyServ.update(id, data).subscribe(
+    this.employerServ.update(id, data).subscribe(
       (ret: any) => {
         const newData = event.newData;
         event.confirm.resolve(newData);
@@ -116,7 +120,7 @@ export class CompaniesComponent {
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;
-      this.companyServ.deleteMany([id]).subscribe(
+      this.employerServ.deleteMany([id]).subscribe(
         (ret: any) => {
           event.confirm.resolve();
         },

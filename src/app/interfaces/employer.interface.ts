@@ -1,5 +1,5 @@
 import { Entity } from './entity.interface';
-export interface Company extends Entity {
+export interface Employer extends Entity {
     name: string,
-    city: string
+    category: string
 }

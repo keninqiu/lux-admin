@@ -1,4 +1,5 @@
 import { Entity } from './entity.interface';
 export interface Skill extends Entity {
-    name: string
+    name: string,
+    category: string
 }

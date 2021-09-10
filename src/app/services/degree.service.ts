@@ -16,7 +16,7 @@ export class DegreeService {
   }
 
   getAll(): Observable<Degree[]> {
-    return this.api.getPrivate('degree') as Observable<Degree[]>;
+    return this.api.getPublic('degree') as Observable<Degree[]>;
   }
 
   get(id: string): Observable<Degree> {

@@ -27,7 +27,7 @@ import { CountryService } from './services/country.service';
 import { StateService } from './services/state.service';
 import { CityService } from './services/city.service';
 import { CertificationService } from './services/certification.service';
-import { CompanyService } from './services/company.service';
+import { EmployerService } from './services/employer.service';
 import { DegreeService } from './services/degree.service';
 import { IndustryService } from './services/industry.service';
 import { JobService } from './services/job.service';
@@ -61,7 +61,7 @@ import { CategoryService } from './services/category.service';
     StateService,
     CityService,
     CertificationService,
-    CompanyService,
+    EmployerService,
     DegreeService,
     IndustryService,
     JobService,

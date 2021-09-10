@@ -3,6 +3,8 @@ import { LocalDataSource } from 'ng2-smart-table';
 
 import { Skill } from '../../../interfaces/skill.interface';
 import { SkillService } from '../../../services/skill.service';
+import { CategoryService } from 'app/services/category.service';
+import { Category } from 'app/interfaces/category.interface';
 
 @Component({
   selector: 'skills',
@@ -11,34 +13,67 @@ import { SkillService } from '../../../services/skill.service';
 })
 export class SkillsComponent {
 
-  settings = {
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmCreate: true
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
-    columns: {
-      name: {
-        title: '名称',
-        type: 'string',
-      }
-    },
-  };
-
+  settings: any;
+  
+  categories: any;
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private skillServ: SkillService) {
+  constructor(
+    private categoryServ: CategoryService,
+    private skillServ: SkillService) {
+
+      this.categoryServ.getAllByType('Skill').subscribe(
+        (categories: Category[]) => {
+          this.categories = categories;
+          const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
+        
+
+          this.settings = {
+            add: {
+              addButtonContent: '<i class="nb-plus"></i>',
+              createButtonContent: '<i class="nb-checkmark"></i>',
+              cancelButtonContent: '<i class="nb-close"></i>',
+              confirmCreate: true
+            },
+            edit: {
+              editButtonContent: '<i class="nb-edit"></i>',
+              saveButtonContent: '<i class="nb-checkmark"></i>',
+              cancelButtonContent: '<i class="nb-close"></i>',
+              confirmSave: true
+            },
+            delete: {
+              deleteButtonContent: '<i class="nb-trash"></i>',
+              confirmDelete: true,
+            },
+            columns: {
+              name: {
+                title: '名称',
+                type: 'string',
+              },
+              category: {
+                title: '类别',
+                type: 'html',
+                valuePrepareFunction: (cell, row) => { 
+                  
+                  const theCategory = this.categories.filter(item => item._id == cell);
+                  if(theCategory && theCategory.length > 0) {
+                    return theCategory[0].name;
+                  }
+                
+                  return cell;
+                },
+                editor: {
+                  type: 'list',
+                  config: {
+                    list: categoryList,
+                  },
+                },
+              },              
+            },
+          };
+        });
+
+
     this.skillServ.getAll().subscribe(
       (skills: Skill[]) => {
         this.source.load(skills);

@@ -37,7 +37,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: '公司',
-        link: 'basic/companies',
+        link: 'basic/employers',
       },
       {
         title: '学位',
