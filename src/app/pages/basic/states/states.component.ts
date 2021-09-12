@@ -47,6 +47,10 @@ export class StatesComponent {
               title: '名称',
               type: 'string',
             },
+            url: {
+              title: '链接',
+              type: 'string',
+            },
             type: {
               title: '类型',
               type: 'string'

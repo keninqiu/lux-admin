@@ -35,6 +35,10 @@ export class CountriesComponent {
         title: '名称',
         type: 'string',
       },
+      url: {
+        title: '链接',
+        type: 'string',
+      },
       code: {
         title: '代码',
         type: 'string',

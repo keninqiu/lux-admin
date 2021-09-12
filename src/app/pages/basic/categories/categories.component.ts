@@ -43,6 +43,10 @@ export class CategoriesComponent {
             confirmDelete: true,
           },
           columns: {
+            _id: {
+              title: 'ID',
+              type: 'string',
+            },
             name: {
               title: '名称',
               type: 'string',
@@ -67,6 +71,10 @@ export class CategoriesComponent {
                   list: countryList,
                 },
               },
+            },
+            url: {
+              title: '链接',
+              type: 'string',
             },
           },
         };

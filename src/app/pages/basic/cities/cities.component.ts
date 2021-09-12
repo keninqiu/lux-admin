@@ -50,6 +50,10 @@ export class CitiesComponent {
               title: '名称',
               type: 'string',
             },
+            url: {
+              title: '链接',
+              type: 'string',
+            },
             state: {
               title: '州/省',
               type: 'html',

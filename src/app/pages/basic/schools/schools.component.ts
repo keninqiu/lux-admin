@@ -60,6 +60,10 @@ export class SchoolsComponent {
                   title: '名称',
                   type: 'string',
                 },
+                url: {
+                  title: '链接',
+                  type: 'string',
+                },
                 category: {
                   title: '类别',
                   type: 'html',
@@ -67,9 +71,10 @@ export class SchoolsComponent {
                     
                     const theCategory = this.categories.filter(item => item._id == cell);
                     if(theCategory && theCategory.length > 0) {
-                      return theCategory[0].name;
+                      const item = theCategory[0];
+                      return item.country.name + '-' + item.name;
                     }
-                   
+                    
                     return cell;
                   },
                   editor: {
@@ -80,6 +85,7 @@ export class SchoolsComponent {
                   },
                 },
               },
+
             };
     
     
