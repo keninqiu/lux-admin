@@ -7,7 +7,7 @@
     <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
   </ul>
 </nb-alert>
-
+   
 <nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
   <p class="alert-title"><b>Hooray!</b></p>
   <ul class="alert-message-list">
