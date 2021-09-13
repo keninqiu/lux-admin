@@ -8,7 +8,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: '基本表',
+    title: '基础数据',
     icon: 'lock-outline',
     children: [
       {
@@ -56,35 +56,54 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: 'basic/skills',
       },
     ]
-  }
+  },
   /*
   {
-    title: 'BASIC',
-    group: true,
-  },
-
-  
-  {
-    title: 'Auth',
+    title: '薪酬数据',
     icon: 'lock-outline',
     children: [
       {
-        title: 'Login',
-        link: '/auth/login',
+        title: '国家/地区',
+        link: 'salary/countries',
       },
       {
-        title: 'Register',
-        link: '/auth/register',
+        title: '州/省',
+        link: 'salary/states',
       },
       {
-        title: 'Request Password',
-        link: '/auth/request-password',
+        title: '城市',
+        link: 'salary/cities',
       },
       {
-        title: 'Reset Password',
-        link: '/auth/reset-password',
+        title: '职位',
+        link: 'salary/jobs',
       },
-    ],
-  },
+      {
+        title: '学校',
+        link: 'salary/schools',
+      },
+      {
+        title: '公司',
+        link: 'salary/employers',
+      },
+      {
+        title: '学位',
+        link: 'salary/degrees',
+      },
+      {
+        title: '行业',
+        link: 'salary/industries',
+      },
+      {
+        title: '证书',
+        link: 'salary/certifications',
+      },
+      {
+        title: '技能',
+        link: 'salary/skills',
+      },
+    ]
+  }
   */
+
 ];

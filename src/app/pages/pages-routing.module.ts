@@ -18,6 +18,11 @@ const routes: Routes = [{
         .then(m => m.BasicModule),
     },
     {
+      path: 'salary',
+      loadChildren: () => import('./salary/salary.module')
+        .then(m => m.SalaryModule),
+    },
+    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
