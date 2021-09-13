@@ -5,5 +5,5 @@
  */
 export const environment = {
   production: true,
-  API: 'http://luxs.miri.io/api/'
+  API: 'http://luxs.luxacademy.cn/api/'
 };
