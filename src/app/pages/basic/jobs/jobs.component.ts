@@ -12,7 +12,7 @@ import { Category } from 'app/interfaces/category.interface';
   styleUrls: ['./jobs.component.scss']
 })
 export class JobsComponent {
-
+  count: number;
   settings: any;
   categories: any;
   source: LocalDataSource = new LocalDataSource();
@@ -81,6 +81,7 @@ export class JobsComponent {
 
     this.jobServ.getAll().subscribe(
       (jobs: Job[]) => {
+        this.count = jobs.length;
         this.source.load(jobs);
       }
     );

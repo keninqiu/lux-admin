@@ -12,6 +12,7 @@ import { Category } from 'app/interfaces/category.interface';
   styleUrls: ['./degrees.component.scss']
 })
 export class DegreesComponent {
+  count: number;
   categories: any;
 
   settings: any;
@@ -81,6 +82,7 @@ export class DegreesComponent {
 
     this.degreeServ.getAll().subscribe(
       (degrees: Degree[]) => {
+        this.count = degrees.length;
         this.source.load(degrees);
       }
     );

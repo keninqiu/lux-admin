@@ -10,7 +10,7 @@ import { CountryService } from '../../../services/country.service';
   styleUrls: ['./countries.component.scss']
 })
 export class CountriesComponent {
-
+  count: number;
 
   settings = {
     actions: { columnTitle: '操作'},
@@ -42,11 +42,7 @@ export class CountriesComponent {
       code: {
         title: '代码',
         type: 'string',
-      },
-      currencyCode: {
-        title: '货币',
-        type: 'string',
-      },
+      }
     },
   };
 
@@ -55,6 +51,7 @@ export class CountriesComponent {
   constructor(private countryServ: CountryService) {
     this.countryServ.getAll().subscribe(
       (countries: Country[]) => {
+        this.count = countries.length;
         this.source.load(countries);
       }
     );

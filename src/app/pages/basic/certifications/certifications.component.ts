@@ -11,7 +11,7 @@ import { Category } from 'app/interfaces/category.interface';
   styleUrls: ['./certifications.component.scss']
 })
 export class CertificationsComponent {
-
+  count: number;
   categories: any;
   settings: any;
 
@@ -79,6 +79,7 @@ export class CertificationsComponent {
 
     this.certificationServ.getAll().subscribe(
       (certifications: Certification[]) => {
+        this.count = certifications.length;
         this.source.load(certifications);
       }
     );

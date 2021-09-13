@@ -12,7 +12,7 @@ import { CountryService } from '../../../services/country.service';
   styleUrls: ['./states.component.scss']
 })
 export class StatesComponent {
-
+  count: number;
   countries: any;
   settings: any;
 
@@ -87,6 +87,7 @@ export class StatesComponent {
 
     this.stateServ.getAll().subscribe(
       (states: State[]) => {
+        this.count = states.length;
         this.source.load(states);
       }
     );

@@ -12,7 +12,7 @@ import { Category } from 'app/interfaces/category.interface';
   styleUrls: ['./industries.component.scss']
 })
 export class IndustriesComponent {
-
+  count: number;
   categories: any;
   settings: any;
 
@@ -80,6 +80,7 @@ export class IndustriesComponent {
       });
     this.industryServ.getAll().subscribe(
       (degrees: Industry[]) => {
+        this.count = degrees.length;
         this.source.load(degrees);
       }
     );

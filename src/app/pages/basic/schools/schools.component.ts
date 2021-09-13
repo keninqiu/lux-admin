@@ -14,7 +14,7 @@ import { Category } from 'app/interfaces/category.interface';
   styleUrls: ['./schools.component.scss']
 })
 export class SchoolsComponent {
-
+  count: number;
   categories: any;
   cities: any;
   settings: any;
@@ -99,6 +99,7 @@ export class SchoolsComponent {
 
     this.schoolServ.getAll().subscribe(
       (schools: School[]) => {
+        this.count = schools.length;
         this.source.load(schools);
       }
     );

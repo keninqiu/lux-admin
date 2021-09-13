@@ -12,7 +12,7 @@ import { Category } from 'app/interfaces/category.interface';
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent {
-
+  count: number;
   settings: any;
   
   categories: any;
@@ -81,6 +81,7 @@ export class SkillsComponent {
 
     this.skillServ.getAll().subscribe(
       (skills: Skill[]) => {
+        this.count = skills.length;
         this.source.load(skills);
       }
     );

@@ -14,6 +14,7 @@ import { Category } from 'app/interfaces/category.interface';
   styleUrls: ['./employers.component.scss']
 })
 export class EmployersComponent {
+  count: number;
   categories: any;
   cities: any;
   settings: any;
@@ -86,6 +87,7 @@ export class EmployersComponent {
 
     this.employerServ.getAll().subscribe(
       (employers: Employer[]) => {
+        this.count = employers.length;
         this.source.load(employers);
       }
     );
