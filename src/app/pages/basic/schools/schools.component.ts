@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CityService } from 'app/services/city.service';
-import { LocalDataSource } from 'ng2-smart-table';
+import { LocalDataSource, Ng2SmartTableComponent } from 'ng2-smart-table';
 
 import { School } from '../../../interfaces/school.interface';
 import { SchoolService } from '../../../services/school.service';
-import { City } from '../../../interfaces/city.interface';
 import { CategoryService } from 'app/services/category.service';
 import { Category } from 'app/interfaces/category.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'schools',
@@ -22,6 +22,7 @@ export class SchoolsComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
+    private route: Router,
     private schoolServ: SchoolService, 
     private categoryServ: CategoryService,
     private cityServ: CityService) {
@@ -31,67 +32,58 @@ export class SchoolsComponent {
         this.categories = categories;
         const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
 
+        this.settings = {
+          actions: { columnTitle: '操作'},
+          add: {
+            addButtonContent: '<i class="nb-plus"></i>',
+            createButtonContent: '<i class="nb-checkmark"></i>',
+            cancelButtonContent: '<i class="nb-close"></i>',
+            confirmCreate: true
+          },
+          edit: {
+            editButtonContent: '<i class="nb-edit"></i>',
+            saveButtonContent: '<i class="nb-checkmark"></i>',
+            cancelButtonContent: '<i class="nb-close"></i>',
+            confirmSave: true
+          },
+          delete: {
+            deleteButtonContent: '<i class="nb-trash"></i>',
+            confirmDelete: true,
+          },
+          mode: 'external',
+          columns: {
+            name: {
+              title: '名称',
+              type: 'string',
+            },
+            url: {
+              title: '链接',
+              type: 'string',
+            },
+            category: {
+              title: '类别',
+              type: 'html',
+              valuePrepareFunction: (cell, row) => { 
+                
+                const theCategory = this.categories.filter(item => item._id == cell);
+                if(theCategory && theCategory.length > 0) {
+                  const item = theCategory[0];
+                  return item.country.name + '-' + item.name;
+                }
+                
+                return cell;
+              },
+              editor: {
+                type: 'list',
+                config: {
+                  list: categoryList,
+                },
+              },
+            },
+          },
 
-        this.cityServ.getAll().subscribe(
-          (cities: City[]) => {
-            this.cities = cities;
-            const cityList = cities.map(item => {return {value: item._id, title: item.name};});
-    
-            this.settings = {
-              actions: { columnTitle: '操作'},
-              add: {
-                addButtonContent: '<i class="nb-plus"></i>',
-                createButtonContent: '<i class="nb-checkmark"></i>',
-                cancelButtonContent: '<i class="nb-close"></i>',
-                confirmCreate: true
-              },
-              edit: {
-                editButtonContent: '<i class="nb-edit"></i>',
-                saveButtonContent: '<i class="nb-checkmark"></i>',
-                cancelButtonContent: '<i class="nb-close"></i>',
-                confirmSave: true
-              },
-              delete: {
-                deleteButtonContent: '<i class="nb-trash"></i>',
-                confirmDelete: true,
-              },
-              columns: {
-                name: {
-                  title: '名称',
-                  type: 'string',
-                },
-                url: {
-                  title: '链接',
-                  type: 'string',
-                },
-                category: {
-                  title: '类别',
-                  type: 'html',
-                  valuePrepareFunction: (cell, row) => { 
-                    
-                    const theCategory = this.categories.filter(item => item._id == cell);
-                    if(theCategory && theCategory.length > 0) {
-                      const item = theCategory[0];
-                      return item.country.name + '-' + item.name;
-                    }
-                    
-                    return cell;
-                  },
-                  editor: {
-                    type: 'list',
-                    config: {
-                      list: categoryList,
-                    },
-                  },
-                },
-              },
-
-            };
-    
-    
-        
-          }
-        );    
+        };
+  
     
       }
     );
@@ -105,6 +97,19 @@ export class SchoolsComponent {
     );
   }
 
+
+  onEdit(event): void {
+    console.log('onEdit, event=', event);
+    const id = event.data._id;
+    this.route.navigate(['pages/basic/school/' + id + '/edit']);
+  }
+
+  onCreate(event): void {
+    console.log('create');
+    this.route.navigate(['pages/basic/school/add']);
+  }
+
+  /*
   onCreateConfirm(event): void {
     const data = event.newData;
     this.schoolServ.add(data).subscribe(
@@ -133,11 +138,13 @@ export class SchoolsComponent {
     );
     
   }
-
-  onDeleteConfirm(event): void {
+  */
+  onDelete(event): void {
+    console.log('event for delete=', event);
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;
+      console.log('id=', id);
       this.schoolServ.deleteMany([id]).subscribe(
         (ret: any) => {
           event.confirm.resolve();
@@ -146,8 +153,6 @@ export class SchoolsComponent {
           event.confirm.reject();
         }
       );
-    } else {
-      event.confirm.reject();
     }
   }
 }

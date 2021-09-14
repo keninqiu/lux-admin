@@ -51,14 +51,6 @@ export class StatesComponent {
               title: '链接',
               type: 'string',
             },
-            type: {
-              title: '类型',
-              type: 'string'
-            },
-            location: {
-              title: '位置',
-              type: 'string'
-            },
             country: {
               title: '国家/地区',
               type: 'html',

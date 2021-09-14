@@ -1,15 +1,16 @@
 <nb-card>
     <nb-card-header>
       学校({{count}})
+      
     </nb-card-header>
   
     <nb-card-body>
       <ng2-smart-table *ngIf="settings"
       [settings]="settings" 
       [source]="source" 
-      (createConfirm)="onCreateConfirm($event)"
-      (editConfirm)="onEditConfirm($event)"
-      (deleteConfirm)="onDeleteConfirm($event)">
+      (create)="onCreate($event)"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)">
       </ng2-smart-table>
     </nb-card-body>
 </nb-card>
