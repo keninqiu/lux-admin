@@ -16,7 +16,7 @@ export class CountryService {
   }
 
   getAll(): Observable<Country[]> {
-    return this.api.getPrivate('country') as Observable<Country[]>;
+    return this.api.getPublic('country') as Observable<Country[]>;
   }
 
   get(id: string): Observable<Country> {

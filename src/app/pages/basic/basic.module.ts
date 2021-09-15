@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { 
   NbCardModule, 
   NbIconModule, 
@@ -6,6 +7,7 @@ import {
   NbTreeGridModule, 
   NbTabsetModule, 
   NbSelectModule,
+  NbToastrModule,
   NbButtonModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -25,6 +27,8 @@ import { JobAddComponent } from './job-add/job-add.component';
     NbSelectModule,
     ThemeModule,
     BasicRoutingModule,
+    FormsModule,
+    NbToastrModule.forRoot(),
     Ng2SmartTableModule,
   ],
   declarations: [
