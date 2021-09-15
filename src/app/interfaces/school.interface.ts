@@ -91,12 +91,14 @@ export interface School extends Entity {
             male: {
               profileCount: number,
               min: number,
-              max: number
+              max: number,
+              avg: number
             },
             female: {
               profileCount: number,
               min: number,
-              max: number
+              max: number,
+              avg: number
             }
         }
       } 

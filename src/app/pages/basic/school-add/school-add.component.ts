@@ -113,31 +113,48 @@ export class SchoolAddComponent implements OnInit {
   byDimension = {
     experience: {
         entryLevel: {
-          profileCount: undefined
+          profileCount: undefined,
+          min: undefined,
+          max: undefined,
+          avg: undefined
         },
         earlyCareer: {
-          profileCount: undefined
+          profileCount: undefined,
+          min: undefined,
+          max: undefined,
+          avg: undefined
         },
         midCareer: {
-          profileCount: undefined
+          profileCount: undefined,
+          min: undefined,
+          max: undefined,
+          avg: undefined
         },
         lateCareer: {
-          profileCount: undefined
+          profileCount: undefined,
+          min: undefined,
+          max: undefined,
+          avg: undefined
         },
         experienced: {
-          profileCount: undefined
+          profileCount: undefined,
+          min: undefined,
+          max: undefined,
+          avg: undefined
         }
     },
     gender: {
         male: {
           profileCount: undefined,
           min: undefined,
-          max: undefined
+          max: undefined,
+          avg: undefined
         },
         female: {
           profileCount: undefined,
           min: undefined,
-          max: undefined
+          max: undefined,
+          avg: undefined
         }
     }
   } 
@@ -193,20 +210,56 @@ export class SchoolAddComponent implements OnInit {
             this.country = school.category.country._id;
             this.category = school.category._id;
           }
-          console.log('this.about=', this.about);
+          if(school.byDimension) {
+            this.byDimension = school.byDimension;
+            console.log('this.byDimension==', this.byDimension);
+          }
+          
         }
       );
     })
   }
 
+  getExperiencePercentage(level: string) {
+    console.log('this.byDimension.experience==', this.byDimension.experience);
+    if(!this.byDimension || !this.byDimension.experience) {
+      return 0;
+    }
+    const total = 
+    this.byDimension.experience.earlyCareer.profileCount 
+    + this.byDimension.experience.entryLevel.profileCount
+    + this.byDimension.experience.experienced.profileCount
+    + this.byDimension.experience.lateCareer.profileCount
+    + this.byDimension.experience.midCareer.profileCount;
+    if(!total) {
+      return 0;
+    }
+    return (this.byDimension.experience[level].profileCount * 100 / total).toFixed(1);
+  }
+
+  getGenderPercentage(level: string) {
+    if(!this.byDimension || !this.byDimension.gender) {
+      return 0;
+    }
+    const total = 
+    this.byDimension.gender.male.profileCount 
+    + this.byDimension.gender.female.profileCount;
+    if(!total) {
+      return 0;
+    }
+    return (this.byDimension.gender[level].profileCount * 100 / total).toFixed(1);
+  }
+
   save() {
     const data = {
+      rawDataParsed: true,
       name: this.name,
       category: this.category,
       compensation: this.compensation,
       salary: this.salary,
       roi: this.roi,
-      about: this.about
+      about: this.about,
+      byDimension: this.byDimension
     };
     if(this.id) {
       this.schoolServ.update(this.id, data).subscribe(
