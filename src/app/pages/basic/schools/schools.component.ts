@@ -89,7 +89,7 @@ export class SchoolsComponent {
     );
 
 
-    this.schoolServ.getAll().subscribe(
+    this.schoolServ.getAllWithRawData().subscribe(
       (schools: School[]) => {
         this.count = schools.length;
         this.source.load(schools);

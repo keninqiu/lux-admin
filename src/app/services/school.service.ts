@@ -19,6 +19,10 @@ export class SchoolService {
     return this.api.getPrivate('school') as Observable<School[]>;
   }
 
+  getAllWithRawData(): Observable<School[]> {
+    return this.api.getPrivate('school/all/withRawData') as Observable<School[]>;
+  }
+
   get(id: string): Observable<School> {
     return this.api.getPublic('school/' + id) as Observable<School>;
   }

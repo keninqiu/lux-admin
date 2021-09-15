@@ -1,83 +1,212 @@
 <nb-tabset>
     <nb-tab tabTitle="学校信息">
-        <input type="text" nbInput fullWidth placeholder="名称" [(ngModel)]="name">
-        <div class="py-3">
+      <div *ngIf="url">
+        原始链接：{{url}}
+      </div>
+        学校名称：<input type="text" nbInput fullWidth placeholder="名称" [(ngModel)]="name">
+        <div class="py-3 d-flex">
+          <div>
+            <div>
+              所属国家：
+            </div>
             <nb-select class="pr-3" placeholder="所属国家" [(selected)]="country">
                 <nb-option value="{{item._id}}" *ngFor="let item of countries">{{item.name}}</nb-option>
             </nb-select>
-            <nb-select class="pr-3" placeholder="所属类别" [(selected)]="category">
+          </div>
+            <div>
+              <div>
+                所属类别：
+              </div>
+              <nb-select class="pr-3" placeholder="所属类别" [(selected)]="category">
                 <nb-option value="{{item._id}}" *ngFor="let item of categories">{{item.name}}</nb-option>
             </nb-select>
+            </div>
+
         </div>
         <div class="d-flex pb-3">
-            <input type="text" class="mr-3" nbInput fullWidth placeholder="网站" [(ngModel)]="about.website">
-            <input type="text" nbInput fullWidth placeholder="招生网" [(ngModel)]="about.admissionsUrl">
+          <div class="w-100 mr-3">
+            <div>
+              网站：
+            </div>
+            <input type="text" nbInput fullWidth placeholder="网站" [(ngModel)]="about.website">
+          </div>
+          <div class="w-100">
+            <div>招生链接：</div>
+            <input type="text" nbInput fullWidth placeholder="招生链接" [(ngModel)]="about.admissionsUrl">
+          </div>
+            
         </div>
         <div class="d-flex pb-3">
-            <input type="text" nbInput fullWidth placeholder="毕业率" [(ngModel)]="about.graduationRate">%
-            <input type="text" class="ml-3" nbInput fullWidth placeholder="STEM比例" [(ngModel)]="about.percentStem">%  
-            <input type="text" class="ml-3" nbInput fullWidth placeholder="本地就业率" [(ngModel)]="about.percentStayInState">%     
-            <input type="text" class="ml-3" nbInput fullWidth placeholder="接受助学金率" [(ngModel)]="about.percentReceivingPellGrants">%   
-            <input type="text" class="ml-3" nbInput fullWidth placeholder="本科招生人数" [(ngModel)]="about.studentsEnrolled">%          
+          <div class="w-100">
+            <div>
+              毕业率(%)：
+            </div>
+            <input type="text" nbInput fullWidth placeholder="毕业率" [(ngModel)]="about.graduationRate">
+            
+          </div>
+          <div class="w-100 ml-3">
+            <div>STEM比例(%)：</div>
+            <input type="text" nbInput fullWidth placeholder="STEM比例" [(ngModel)]="about.percentStem">
+          </div>
+          <div class="w-100 ml-3">
+            <div>本地就业率(%)：</div>
+            <input type="text" nbInput fullWidth placeholder="本地就业率" [(ngModel)]="about.percentStayInState">
+          </div>
+          <div class="w-100 ml-3">
+            <div>接受助学金率(%)：</div>
+            <input type="text" nbInput fullWidth placeholder="接受助学金率" [(ngModel)]="about.percentReceivingPellGrants">
+          </div>
+          <div class="w-100 ml-3">
+            <div>本科招生人数(%)：</div>
+            <input type="text" nbInput fullWidth placeholder="本科招生人数" [(ngModel)]="about.studentsEnrolled">
+          </div>     
         </div>
 
-        <textarea nbInput class="mb-3" fullWidth placeholder="介绍" [(ngModel)]="about.abstract"></textarea>
-        <input type="text" nbInput fullWidth placeholder="维基百科" [(ngModel)]="about.wikiUrl">
+        介绍：<textarea nbInput class="mb-3" fullWidth placeholder="介绍" [(ngModel)]="about.abstract"></textarea>
+        维基百科：<input type="text" nbInput fullWidth placeholder="维基百科" [(ngModel)]="about.wikiUrl">
     </nb-tab>
     <nb-tab tabTitle="薪酬数据">
       <div>时薪</div>
       <div class="d-flex pb-3">
-        <input type="text" nbInput fullWidth placeholder="最小值" [(ngModel)]="compensation.hourlyRate.min">
-        <input type="text" class="ml-3" nbInput fullWidth placeholder="最大值" [(ngModel)]="compensation.hourlyRate.max">     
-        <input type="text" class="ml-3" nbInput fullWidth placeholder="平均值" [(ngModel)]="compensation.hourlyRate.avg">   
+        <div class="w-100">
+          <div>最小值</div>
+          <input type="text" nbInput fullWidth placeholder="最小值" [(ngModel)]="compensation.hourlyRate.min">
+        </div>
+        <div class="w-100 ml-3">
+          <div>最大值</div>
+          <input type="text" nbInput fullWidth placeholder="最大值" [(ngModel)]="compensation.hourlyRate.max"> 
+        </div>
+        <div class="w-100 ml-3">
+          <div>平均值</div>            
+          <input type="text" nbInput fullWidth placeholder="平均值" [(ngModel)]="compensation.hourlyRate.avg">  
+        </div> 
       </div>
       <div>年薪</div>
       <div class="d-flex pb-3">
-        <input type="text" nbInput fullWidth placeholder="最小值" [(ngModel)]="compensation.salary.min">
-        <input type="text" class="ml-3" nbInput fullWidth placeholder="最大值" [(ngModel)]="compensation.salary.max">     
-        <input type="text" class="ml-3" nbInput fullWidth placeholder="平均值" [(ngModel)]="compensation.salary.avg">   
-      </div>      
+        <div class="w-100">
+          <div>最小值</div>
+          <input type="text" nbInput fullWidth placeholder="最小值" [(ngModel)]="compensation.salary.min">
+        </div>
+        <div class="w-100 ml-3">
+          <div>最大值</div>
+          <input type="text" nbInput fullWidth placeholder="最大值" [(ngModel)]="compensation.salary.max"> 
+        </div>
+        <div class="w-100 ml-3">
+          <div>平均值</div>            
+          <input type="text" nbInput fullWidth placeholder="平均值" [(ngModel)]="compensation.salary.avg">  
+        </div> 
+      </div>    
     </nb-tab>
     <nb-tab tabTitle="汇总数据">
         <div>投资回报率</div>  
         <div class="d-flex pb-3">
-          <input type="text" nbInput fullWidth placeholder="排名" [(ngModel)]="roi.overallRank">
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="20年净投资回报率" [(ngModel)]="roi.net20YearRoiOnCampus">     
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="年度投资回报率" [(ngModel)]="roi.annualizedRoiOnCampus">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="4年总成本" [(ngModel)]="roi.averageLoanAmount4Years">  
+          <div class="w-100">
+            <div>排名</div>
+            <input type="text" nbInput fullWidth placeholder="排名" [(ngModel)]="roi.overallRank">
+          </div>
+          <div class="w-100 ml-3">
+            <div>20年净投资回报率</div>
+            <input type="text" nbInput fullWidth placeholder="20年净投资回报率" [(ngModel)]="roi.net20YearRoiOnCampus">
+          </div>
+          <div class="w-100 ml-3">
+            <div>年度投资回报率</div>               
+            <input type="text" nbInput fullWidth placeholder="年度投资回报率" [(ngModel)]="roi.annualizedRoiOnCampus">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>年度投资回报率</div>   
+            <input type="text" nbInput fullWidth placeholder="4年总成本" [(ngModel)]="roi.averageLoanAmount4Years">
+          </div>
+            
         </div>
         <div>薪酬</div>
         <div class="d-flex pb-3">
-          <input type="text" nbInput fullWidth placeholder="排名" [(ngModel)]="salary.rank">
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="初级职业薪酬" [(ngModel)]="salary.earlyCareerMedianPay">     
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="中级职业薪酬" [(ngModel)]="salary.midCareerMedianPay">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="工作使命感比例" [(ngModel)]="salary.percentHighMeaning">  
+          <div class="w-100">
+            <div>排名</div>   
+            <input type="text" nbInput fullWidth placeholder="排名" [(ngModel)]="salary.rank">
+          </div>
+          <div class="w-100 ml-3">
+            <div>初级职业薪酬</div>          
+            <input type="text" nbInput fullWidth placeholder="初级职业薪酬" [(ngModel)]="salary.earlyCareerMedianPay">   
+          </div>  
+          <div class="w-100 ml-3">
+            <div>中级职业薪酬</div>  
+            <input type="text" nbInput fullWidth placeholder="中级职业薪酬" [(ngModel)]="salary.midCareerMedianPay"> 
+          </div> 
+          <div class="w-100 ml-3">
+            <div>工作使命感比例(%)</div>          
+            <input type="text" nbInput fullWidth placeholder="工作使命感比例" [(ngModel)]="salary.percentHighMeaning">  
+          </div>
         </div>
         <div>工作经验</div>
         <div class="d-flex pb-3">
-          <input type="text" nbInput fullWidth placeholder="入门级数量" [(ngModel)]="byDimension.experience.entryLevel.profileCount">
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="初级数量" [(ngModel)]="byDimension.experience.earlyCareer.profileCount">     
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="中级数量" [(ngModel)]="byDimension.experience.midCareer.profileCount"> 
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="高级数量" [(ngModel)]="byDimension.experience.lateCareer.profileCount">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="专家级数量" [(ngModel)]="byDimension.experience.experienced.profileCount"> 
+          <div class="w-100">
+            <div>入门级数量</div>             
+            <input type="text" nbInput fullWidth placeholder="入门级数量" [(ngModel)]="byDimension.experience.entryLevel.profileCount">
+          </div>
+          <div class="w-100 ml-3">
+            <div>初级数量</div>              
+            <input type="text" nbInput fullWidth placeholder="初级数量" [(ngModel)]="byDimension.experience.earlyCareer.profileCount"> 
+          </div>   
+          <div class="w-100 ml-3">
+            <div>中级数量</div>             
+            <input type="text" nbInput fullWidth placeholder="中级数量" [(ngModel)]="byDimension.experience.midCareer.profileCount"> 
+          </div>
+          <div class="w-100 ml-3">
+            <div>高级数量</div>            
+            <input type="text" nbInput fullWidth placeholder="高级数量" [(ngModel)]="byDimension.experience.lateCareer.profileCount">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>专家级数量</div>            
+            <input type="text" nbInput fullWidth placeholder="专家级数量" [(ngModel)]="byDimension.experience.experienced.profileCount"> 
+          </div>
         </div>
 
         <div>性别细分</div>
         <div class="d-flex pb-3">
-          <input type="text" nbInput fullWidth placeholder="女性数量" [(ngModel)]="byDimension.gender.female.profileCount">
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="男性数量" [(ngModel)]="byDimension.gender.male.profileCount">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="女性工资最低值" [(ngModel)]="byDimension.gender.female.min">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="女性工资最高值" [(ngModel)]="byDimension.gender.female.max">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="男性工资最低值" [(ngModel)]="byDimension.gender.male.min">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="男性工资最高值" [(ngModel)]="byDimension.gender.male.max">
+          <div class="w-100">
+            <div>女性数量</div>    
+            <input type="text" nbInput fullWidth placeholder="女性数量" [(ngModel)]="byDimension.gender.female.profileCount">
+          </div>
+          <div class="w-100 ml-3">
+            <div>男性数量</div>             
+            <input type="text" nbInput fullWidth placeholder="男性数量" [(ngModel)]="byDimension.gender.male.profileCount">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>女性工资最低值</div>   
+            <input type="text" nbInput fullWidth placeholder="女性工资最低值" [(ngModel)]="byDimension.gender.female.min">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>女性工资最高值</div>             
+            <input type="text" nbInput fullWidth placeholder="女性工资最高值" [(ngModel)]="byDimension.gender.female.max">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>男性工资最低值</div>             
+            <input type="text" nbInput fullWidth placeholder="男性工资最低值" [(ngModel)]="byDimension.gender.male.min">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>男性工资最高值</div>             
+            <input type="text" nbInput fullWidth placeholder="男性工资最高值" [(ngModel)]="byDimension.gender.male.max">
+          </div>
         </div>
 
         <div>测试成绩</div>
         <div class="d-flex pb-3">
-          <input type="text" nbInput fullWidth placeholder="SAT:25%" [(ngModel)]="about.satScores.lowerPercentile">
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="SAT:75%" [(ngModel)]="about.satScores.upperPercentile">     
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="ACT:25%" [(ngModel)]="about.actScores.lowerPercentile">  
-          <input type="text" class="ml-3" nbInput fullWidth placeholder="ACT:75%" [(ngModel)]="about.actScores.upperPercentile">
+          <div class="w-100">
+            <div>SAT:25%</div>    
+            <input type="text" nbInput fullWidth placeholder="SAT:25%" [(ngModel)]="about.satScores.lowerPercentile">
+          </div>
+          <div class="w-100 ml-3">
+            <div>SAT:75%</div>              
+            <input type="text" nbInput fullWidth placeholder="SAT:75%" [(ngModel)]="about.satScores.upperPercentile">     
+          </div>
+          <div class="w-100 ml-3">
+            <div>ACT:25%</div>              
+            <input type="text" nbInput fullWidth placeholder="ACT:25%" [(ngModel)]="about.actScores.lowerPercentile">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>ACT:75%</div>              
+            <input type="text" nbInput fullWidth placeholder="ACT:75%" [(ngModel)]="about.actScores.upperPercentile">
+          </div>
         </div>
     </nb-tab>
 </nb-tabset>

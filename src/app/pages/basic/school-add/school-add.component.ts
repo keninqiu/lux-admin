@@ -18,7 +18,7 @@ import { CategoryService } from 'app/services/category.service';
 export class SchoolAddComponent implements OnInit {
   id: string;
   name: string;
-
+  url: string;
   countries: Country[];
   _country: string;
   get country(): string {
@@ -35,8 +35,15 @@ export class SchoolAddComponent implements OnInit {
 
 
   categories: Category[];
-  category: string;
+  _category: string;
+  get category(): string {
+    return this._category
+  }
 
+  set category(val: string) {
+    this._category = val;
+    console.log('val of category=', val);
+  }
   compensation = {
     hourlyRate: {
         min: undefined,
@@ -152,9 +159,10 @@ export class SchoolAddComponent implements OnInit {
     this.route.paramMap.subscribe( paramMap => {
       this.id = paramMap.get('id');
       this.schoolServ.get(this.id).subscribe(
-        (school: School) => {
+        (school: any) => {
+          this.url = school.url;
           this.name = school.name;
-          this.category = school.category;
+
           if(school.compensation) {
             this.compensation = school.compensation;
           }
@@ -182,7 +190,8 @@ export class SchoolAddComponent implements OnInit {
 
           }
           if(school.category) {
-            this.category = school.category;
+            this.country = school.category.country._id;
+            this.category = school.category._id;
           }
           console.log('this.about=', this.about);
         }
