@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { CityService } from 'app/services/city.service';
 import { LocalDataSource, Ng2SmartTableComponent } from 'ng2-smart-table';
 
 import { School } from '../../../interfaces/school.interface';
@@ -24,8 +23,7 @@ export class SchoolsComponent {
   constructor(
     private route: Router,
     private schoolServ: SchoolService, 
-    private categoryServ: CategoryService,
-    private cityServ: CityService) {
+    private categoryServ: CategoryService) {
 
     this.categoryServ.getAllByType('School').subscribe(
       (categories: Category[]) => {

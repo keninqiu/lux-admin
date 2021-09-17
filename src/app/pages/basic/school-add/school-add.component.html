@@ -21,7 +21,12 @@
                 <nb-option value="{{item._id}}" *ngFor="let item of categories">{{item.name}}</nb-option>
             </nb-select>
             </div>
-
+            <div>
+              <div>
+                货币代码：
+              </div>
+              <input type="text" nbInput fullWidth placeholder="货币代码" [(ngModel)]="currencyCode">
+            </div>
         </div>
         <div class="d-flex pb-3">
           <div class="w-100 mr-3">
@@ -57,7 +62,7 @@
             <input type="text" nbInput fullWidth placeholder="接受助学金率" [(ngModel)]="about.percentReceivingPellGrants">
           </div>
           <div class="w-100 ml-3">
-            <div>本科招生人数(%)：</div>
+            <div>本科招生人数：</div>
             <input type="text" nbInput fullWidth placeholder="本科招生人数" [(ngModel)]="about.studentsEnrolled">
           </div>     
         </div>

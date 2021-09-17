@@ -5,7 +5,6 @@ import { SchoolService } from 'app/services/school.service';
 import { NbToastrService } from '@nebular/theme';
 import { Country } from 'app/interfaces/country.interface';
 import { CountryService } from 'app/services/country.service';
-import { State } from 'app/interfaces/state.interface';
 import { Category } from 'app/interfaces/category.interface';
 import { StateService } from 'app/services/state.service';
 import { CategoryService } from 'app/services/category.service';
@@ -19,6 +18,7 @@ export class SchoolAddComponent implements OnInit {
   id: string;
   name: string;
   url: string;
+  currencyCode: string;
   countries: Country[];
   _country: string;
   get country(): string {
@@ -179,7 +179,7 @@ export class SchoolAddComponent implements OnInit {
         (school: any) => {
           this.url = school.url;
           this.name = school.name;
-
+          this.currencyCode = school.currencyCode;
           if(school.compensation) {
             this.compensation = school.compensation;
           }
@@ -255,6 +255,7 @@ export class SchoolAddComponent implements OnInit {
       rawDataParsed: true,
       name: this.name,
       category: this.category,
+      currencyCode: this.currencyCode,
       compensation: this.compensation,
       salary: this.salary,
       roi: this.roi,

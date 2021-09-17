@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { Router } from '@angular/router';
 import { Job } from '../../../interfaces/job.interface';
 import { JobService } from '../../../services/job.service';
 import { CategoryService } from 'app/services/category.service';
@@ -19,6 +19,7 @@ export class JobsComponent {
 
   constructor(
     private categoryServ: CategoryService,
+    private route: Router,
     private jobServ: JobService) {
 
 
@@ -29,6 +30,7 @@ export class JobsComponent {
   
           this.settings = {
             actions: { columnTitle: '操作'},
+            mode: 'external',
             add: {
               addButtonContent: '<i class="nb-plus"></i>',
               createButtonContent: '<i class="nb-checkmark"></i>',
@@ -87,6 +89,7 @@ export class JobsComponent {
     );
   }
 
+  /*
   onCreateConfirm(event): void {
     console.log('event in onCreateConfirm=', event);
     const data = event.newData;
@@ -114,8 +117,21 @@ export class JobsComponent {
       }
     );
   }
+  */
 
-  onDeleteConfirm(event): void {
+  onEdit(event): void {
+    console.log('onEdit, event=', event);
+    const id = event.data._id;
+    this.route.navigate(['pages/basic/job/' + id + '/edit']);
+  }
+
+  onCreate(event): void {
+    console.log('create');
+    this.route.navigate(['pages/basic/job/add']);
+  }
+
+  
+  onDelete(event): void {
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;
