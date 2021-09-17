@@ -1,14 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { School } from 'app/interfaces/school.interface';
-import { SchoolService } from 'app/services/school.service';
 import { NbToastrService } from '@nebular/theme';
 import { Country } from 'app/interfaces/country.interface';
 import { CountryService } from 'app/services/country.service';
 import { Category } from 'app/interfaces/category.interface';
-import { StateService } from 'app/services/state.service';
 import { CategoryService } from 'app/services/category.service';
 import { JobService } from 'app/services/job.service';
+interface TreeNode<T> {
+  data: T;
+  children?: TreeNode<T>[];
+  expanded?: boolean;
+}
+
+interface FSEntry {
+  name: string;
+  size: string;
+  kind: string;
+  items?: number;
+}
+
+
+
 
 @Component({
   selector: 'job-add',
@@ -138,6 +151,12 @@ export class JobAddComponent implements OnInit {
             min: undefined,
             max: undefined,
             avg: undefined
+          },
+          selfDefine: {
+            profileCount: undefined,
+            min: undefined,
+            max: undefined,
+            avg: undefined
           }
       }
   };
@@ -147,7 +166,9 @@ export class JobAddComponent implements OnInit {
     private toastrServ: NbToastrService,
     private countryServ: CountryService,
     private categoryServ: CategoryService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) { 
+    }
+
 
   ngOnInit(): void {
     this.countryServ.getAll().subscribe(
@@ -241,5 +262,9 @@ export class JobAddComponent implements OnInit {
     }
 
   }
+
+
+
+
 
 }

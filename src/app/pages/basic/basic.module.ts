@@ -10,12 +10,12 @@ import {
   NbToastrModule,
   NbButtonModule } from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ThemeModule } from '../../@theme/theme.module';
 import { BasicRoutingModule, routedComponents } from './basic-routing.module';
-import { SchoolAddComponent } from './school-add/school-add.component';
-import { JobAddComponent } from './job-add/job-add.component';
 
+
+import { CareerPathComponent, FsIconComponent } from './job-add/career-path/career-path.component';
 @NgModule({
   imports: [
     NbCardModule,
@@ -24,6 +24,7 @@ import { JobAddComponent } from './job-add/job-add.component';
     NbInputModule,
     NbTabsetModule,
     NbButtonModule,
+    NbEvaIconsModule,
     NbSelectModule,
     ThemeModule,
     BasicRoutingModule,
@@ -33,8 +34,8 @@ import { JobAddComponent } from './job-add/job-add.component';
   ],
   declarations: [
     ...routedComponents,
-    SchoolAddComponent,
-    JobAddComponent,
+    CareerPathComponent,
+    FsIconComponent
 
   ],
 })

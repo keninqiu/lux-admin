@@ -1,3 +1,5 @@
+
+
 <nb-tabset>
     <nb-tab tabTitle="学校信息">
       <div *ngIf="url">
@@ -281,6 +283,33 @@
             <input type="text" nbInput fullWidth placeholder="男性工资平均值" [(ngModel)]="byDimension.gender.male.avg">
           </div>
         </div>
+
+        <div class="d-flex pb-3">
+          <div class="w-100">
+            <div>自定义性别样本数量({{getGenderPercentage('selfDefine')}}%)</div>             
+            <input type="text" nbInput fullWidth placeholder="自定义性别样本数量" [(ngModel)]="byDimension.gender.selfDefine.profileCount">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>自定义性别工资最低值</div>             
+            <input type="text" nbInput fullWidth placeholder="自定义性别工资最低值" [(ngModel)]="byDimension.gender.selfDefine.min">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>自定义性别工资最高值</div>             
+            <input type="text" nbInput fullWidth placeholder="自定义性别工资最高值" [(ngModel)]="byDimension.gender.selfDefine.max">
+          </div>
+          <div class="w-100 ml-3">
+            <div>自定义性别工资平均值</div>             
+            <input type="text" nbInput fullWidth placeholder="自定义性别工资平均值" [(ngModel)]="byDimension.gender.selfDefine.avg">
+          </div>
+        </div>
+
+    </nb-tab>
+
+
+    <nb-tab tabTitle="职业道路">
+
+    <app-career-path></app-career-path>
+      
 
     </nb-tab>
 </nb-tabset>
