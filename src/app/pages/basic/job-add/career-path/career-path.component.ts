@@ -14,10 +14,8 @@ interface TreeNode<T> {
 }
 
 interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
+  jobTitle: string;
+  percent: number;
 }
 
 @Component({
@@ -26,8 +24,8 @@ interface FSEntry {
   styleUrls: ['./career-path.component.scss'],
 })
 export class CareerPathComponent {
-  customColumn = 'name';
-  defaultColumns = [ 'size', 'kind', 'items' ];
+  customColumn = 'jobTitle';
+  defaultColumns = [ 'percent' ];
   allColumns = [ this.customColumn, ...this.defaultColumns ];
 
   dataSource: NbTreeGridDataSource<FSEntry>;
@@ -53,44 +51,44 @@ export class CareerPathComponent {
 
   private data: TreeNode<FSEntry>[] = [
     {
-      data: { name: 'Projects', size: '1.8 MB', items: 5, kind: 'dir' },
+      data: { jobTitle: 'Projects', percent: 0.1 },
       children: [
-        { data: { name: 'project-1.doc', kind: 'doc', size: '240 KB' } },
-        { data: { name: 'project-2.doc', kind: 'doc', size: '290 KB' } },
+        { data: { jobTitle: 'project-1.doc', percent: 0.2 } },
+        { data: { jobTitle: 'project-2.doc', percent: 0.2 } },
         {
-          data: { name: 'project-3', kind: 'dir', size: '466 KB', items: 3 },
+          data: { jobTitle: 'project-3', percent: 0.2 },
           children: [
-            { data: { name: 'project-3A.doc', kind: 'doc', size: '200 KB' } },
-            { data: { name: 'project-3B.doc', kind: 'doc', size: '266 KB' } },
-            { data: { name: 'project-3C.doc', kind: 'doc', size: '0' } },
+            { data: { jobTitle: 'project-3A.doc', percent: 0.2 } },
+            { data: { jobTitle: 'project-3B.doc', percent: 0.2 } },
+            { data: { jobTitle: 'project-3C.doc', percent: 0.2 } },
           ],
         },
-        { data: { name: 'project-4.docx', kind: 'docx', size: '900 KB' } },
+        { data: { jobTitle: 'project-4.docx', percent: 0.2 } },
       ],
     },
     {
-      data: { name: 'Reports', kind: 'dir', size: '400 KB', items: 2 },
+      data: { jobTitle: 'Reports', percent: 0.2 },
       children: [
         {
-          data: { name: 'Report 1', kind: 'dir', size: '100 KB', items: 1 },
+          data: { jobTitle: 'Report 1', percent: 0.2 },
           children: [
-            { data: { name: 'report-1.doc', kind: 'doc', size: '100 KB' } },
+            { data: { jobTitle: 'report-1.doc', percent: 0.2 } },
           ],
         },
         {
-          data: { name: 'Report 2', kind: 'dir', size: '300 KB', items: 2 },
+          data: { jobTitle: 'Report 2', percent: 0.2 },
           children: [
-            { data: { name: 'report-2.doc', kind: 'doc', size: '290 KB' } },
-            { data: { name: 'report-2-note.txt', kind: 'txt', size: '10 KB' } },
+            { data: { jobTitle: 'report-2.doc', percent: 0.2 } },
+            { data: { jobTitle: 'report-2-note.txt', percent: 0.2 } },
           ],
         },
       ],
     },
     {
-      data: { name: 'Other', kind: 'dir', size: '109 MB', items: 2 },
+      data: { jobTitle: 'Other', percent: 0.32 },
       children: [
-        { data: { name: 'backup.bkp', kind: 'bkp', size: '107 MB' } },
-        { data: { name: 'secret-note.txt', kind: 'txt', size: '2 MB' } },
+        { data: { jobTitle: 'backup.bkp', percent: 0.32 } },
+        { data: { jobTitle: 'secret-note.txt', percent: 0.32 } },
       ],
     },
   ];
