@@ -59,7 +59,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   /*
   {
-    title: '薪酬数据',
+    title: '薪资数据',
     icon: 'lock-outline',
     children: [
       {
