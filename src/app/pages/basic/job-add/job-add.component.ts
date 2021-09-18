@@ -7,18 +7,6 @@ import { CountryService } from 'app/services/country.service';
 import { Category } from 'app/interfaces/category.interface';
 import { CategoryService } from 'app/services/category.service';
 import { JobService } from 'app/services/job.service';
-interface TreeNode<T> {
-  data: T;
-  children?: TreeNode<T>[];
-  expanded?: boolean;
-}
-
-interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
-}
 
 
 
@@ -183,7 +171,8 @@ export class JobAddComponent implements OnInit {
           this.url = job.url;
           this.name = job.name;
           this.currencyCode = job.currencyCode;
-          console.log('job.===', job);
+          console.log('job1111.===', job);
+          
           if(job.compensation) {
             this.compensation = job.compensation;
           }
@@ -194,9 +183,13 @@ export class JobAddComponent implements OnInit {
           if(job.byDimension) {
             this.byDimension = job.byDimension;
           }
+          console.log('jobnnnn.careerPathData=', job.careerPathData);
           if(job.careerPathData) {
+            console.log('gooooo');
             this.careerPathData = job.careerPathData;
           }
+          console.log('this.careerPathData==', this.careerPathData);
+          console.log('careerPathData.children=', this.careerPathData.children);
           if(job.narratives) {
             this.narratives = job.narratives;
           }

@@ -308,7 +308,7 @@
 
     <nb-tab tabTitle="职业道路">
 
-    <app-career-path></app-career-path>
+    <app-career-path *ngIf="careerPathData && careerPathData.children" [careerPathData]="careerPathData.children"></app-career-path>
       
 
     </nb-tab>

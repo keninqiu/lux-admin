@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
 
 interface TreeNode<T> {
@@ -18,12 +18,19 @@ interface FSEntry {
   percent: number;
 }
 
+interface CareerPath {
+  children?: CareerPath[];
+  jobTitle: string;
+  percent: number;
+}
+
 @Component({
   selector: 'app-career-path',
   templateUrl: './career-path.component.html',
   styleUrls: ['./career-path.component.scss'],
 })
-export class CareerPathComponent {
+export class CareerPathComponent implements OnInit{
+  @Input() careerPathData: TreeNode<FSEntry>[];
   customColumn = 'jobTitle';
   defaultColumns = [ 'percent' ];
   allColumns = [ this.customColumn, ...this.defaultColumns ];
@@ -33,7 +40,40 @@ export class CareerPathComponent {
   sortColumn: string;
   sortDirection: NbSortDirection = NbSortDirection.NONE;
 
+  /*
+  transfer2TreeNode(item: CareerPath) {
+    return {
+      data: {
+        jobTitle: item.jobTitle,
+        percent: item.percent
+      },
+      children: []
+    };
+  }
+  */
   constructor(private dataSourceBuilder: NbTreeGridDataSourceBuilder<FSEntry>) {
+    
+
+  }
+
+  ngOnInit() {
+    console.log('careerPathData in carrepath=', this.careerPathData);
+    /*
+    const data:TreeNode<FSEntry>[] = [];
+    console.log('this.careerPathData=', this.careerPathData);
+    for(let i = 0; i < this.careerPathData.length; i++) {
+      const item = this.careerPathData[i];
+      const dataItem = this.transfer2TreeNode(item);
+      data.push(dataItem);
+      if(item.children) {
+        for(let j=0;j<item.children.length; j++) {
+          const level1 = item.children[j];
+          dataItem.children.push(level1);
+        }
+      }
+    }
+    console.log('data=', data);
+    */
     this.dataSource = this.dataSourceBuilder.create(this.data);
   }
 
@@ -92,7 +132,6 @@ export class CareerPathComponent {
       ],
     },
   ];
-
   getShowOn(index: number) {
     const minWithForMultipleColumns = 400;
     const nextColumnStep = 100;
