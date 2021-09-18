@@ -16,12 +16,7 @@ interface TreeNode<T> {
 interface FSEntry {
   jobTitle: string;
   percent: number;
-}
-
-interface CareerPath {
-  children?: CareerPath[];
-  jobTitle: string;
-  percent: number;
+  kind: string;
 }
 
 @Component({
@@ -61,9 +56,11 @@ export class CareerPathComponent implements OnInit{
     if(Array.isArray(node)) return node.map(item => this.renameKeys(item, keysMaps))
 
     return Object.entries(node).reduce((result, [key, value]) => {
+
         const newKey = keysMaps[key] || key;
         return {
             ...result,
+            kind: (node.children && node.children.length > 0) ? 'dir' : 'dir',
             [newKey]: this.renameKeys(value, keysMaps)
 
         };
@@ -99,7 +96,7 @@ export class CareerPathComponent implements OnInit{
      }
    );
    */
-    const newData = this.renameKeys(this.data, {"value":"data"});
+    const newData = this.renameKeys(this.careerPathData, {"value":"data"});
     this.dataSource = this.dataSourceBuilder.create(newData);
     console.log('this.dataSource =', this.dataSource );
   }
@@ -116,6 +113,7 @@ export class CareerPathComponent implements OnInit{
     return NbSortDirection.NONE;
   }
 
+  /*
   private data: TreeNode<FSEntry>[] = [
     {
       value: { jobTitle: 'Projects', percent: 0.1 },
@@ -159,6 +157,7 @@ export class CareerPathComponent implements OnInit{
       ],
     },
   ];
+  */
   getShowOn(index: number) {
     const minWithForMultipleColumns = 400;
     const nextColumnStep = 100;

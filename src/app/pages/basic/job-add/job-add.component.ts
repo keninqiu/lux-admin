@@ -36,7 +36,7 @@ export class JobAddComponent implements OnInit {
     );
   }
 
-
+  careerPathDataChildren: any;
   categories: Category[];
   _category: string;
   get category(): string {
@@ -146,7 +146,21 @@ export class JobAddComponent implements OnInit {
             max: undefined,
             avg: undefined
           }
-      }
+      },
+        healthBenefit: {
+            medical: {
+                profileCount: undefined
+            },
+            dental: {
+                profileCount: undefined
+            },
+            vision: {
+                profileCount: undefined
+            },
+            none: {
+                profileCount: undefined
+            }
+        }
   };
 
   constructor(
@@ -187,9 +201,10 @@ export class JobAddComponent implements OnInit {
           if(job.careerPathData) {
             console.log('gooooo');
             this.careerPathData = job.careerPathData;
+            this.careerPathDataChildren = job.careerPathData.children;
           }
-          console.log('this.careerPathData==', this.careerPathData);
-          console.log('careerPathData.children=', this.careerPathData.children);
+          //console.log('this.careerPathData==', this.careerPathData);
+          //console.log('careerPathData.children=', this.careerPathData.children);
           if(job.narratives) {
             this.narratives = job.narratives;
           }
@@ -227,6 +242,20 @@ export class JobAddComponent implements OnInit {
     return (this.byDimension.gender[level].profileCount * 100 / total).toFixed(1);
   }
 
+  getHealthBenefitPercentage(benefit: string) {
+    if(!this.byDimension || !this.byDimension.healthBenefit) {
+      return 0;
+    }
+    const total = 
+    this.byDimension.healthBenefit.medical.profileCount 
+    + this.byDimension.healthBenefit.vision.profileCount
+    + this.byDimension.healthBenefit.dental.profileCount
+    + this.byDimension.healthBenefit.none.profileCount;
+    if(!total) {
+      return 0;
+    }
+    return (this.byDimension.healthBenefit[benefit].profileCount * 100 / total).toFixed(1);   
+  }
   save() {
     const data = {
       rawDataParsed: true,

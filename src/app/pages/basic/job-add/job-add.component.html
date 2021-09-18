@@ -1,11 +1,11 @@
 
 
 <nb-tabset>
-    <nb-tab tabTitle="学校信息">
+    <nb-tab tabTitle="工作信息">
       <div *ngIf="url">
         原始链接：{{url}}
       </div>
-        学校名称：<input type="text" nbInput fullWidth placeholder="名称" [(ngModel)]="name">
+        工作名称：<input type="text" nbInput fullWidth placeholder="名称" [(ngModel)]="name">
         <div class="py-3 d-flex">
           <div>
             <div>
@@ -303,12 +303,32 @@
           </div>
         </div>
 
+        <div>健康福利</div>
+        <div class="d-flex pb-3">
+          <div class="w-100">
+            <div>药物保险样本数量({{getHealthBenefitPercentage('medical')}}%)</div>    
+            <input type="text" nbInput fullWidth placeholder="药物保险样本数量" [(ngModel)]="byDimension.healthBenefit.medical.profileCount">
+          </div>
+          <div class="w-100 ml-3">
+            <div>牙医保险样本数量({{getHealthBenefitPercentage('dental')}}%)</div>   
+            <input type="text" nbInput fullWidth placeholder="牙医保险样本数量" [(ngModel)]="byDimension.healthBenefit.dental.profileCount">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>眼科保险样本数量({{getHealthBenefitPercentage('vision')}}%)</div>             
+            <input type="text" nbInput fullWidth placeholder="眼科保险样本数量" [(ngModel)]="byDimension.healthBenefit.vision.profileCount">  
+          </div>
+          <div class="w-100 ml-3">
+            <div>无保险样本数量({{getHealthBenefitPercentage('none')}}%)</div>             
+            <input type="text" nbInput fullWidth placeholder="无保险样本数量" [(ngModel)]="byDimension.healthBenefit.none.profileCount">  
+          </div>
+        </div>
+
     </nb-tab>
 
 
     <nb-tab tabTitle="职业道路">
 
-    <app-career-path *ngIf="careerPathData && careerPathData.children" [careerPathData]="careerPathData.children"></app-career-path>
+    <app-career-path *ngIf="careerPathDataChildren" [careerPathData]="careerPathDataChildren"></app-career-path>
       
 
     </nb-tab>
