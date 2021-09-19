@@ -57,6 +57,7 @@ export class SchoolAddComponent implements OnInit {
     },
   };
 
+  related = [];
   about = {
     abstract: '',
     streetAddress: '',
@@ -156,7 +157,11 @@ export class SchoolAddComponent implements OnInit {
           max: undefined,
           avg: undefined
         }
-    }
+    },
+    salaryByJob: [],
+    hourlyRateByJob: [],
+    salaryByEmployer: [],
+    hourlyRateByEmployer: []
   } 
 
   constructor(
@@ -212,16 +217,17 @@ export class SchoolAddComponent implements OnInit {
           }
           if(school.byDimension) {
             this.byDimension = school.byDimension;
-            console.log('this.byDimension==', this.byDimension);
           }
           
+          if(school.related) {
+            this.related = school.related;
+          }
         }
       );
     })
   }
 
   getExperiencePercentage(level: string) {
-    console.log('this.byDimension.experience==', this.byDimension.experience);
     if(!this.byDimension || !this.byDimension.experience) {
       return 0;
     }
@@ -260,7 +266,8 @@ export class SchoolAddComponent implements OnInit {
       salary: this.salary,
       roi: this.roi,
       about: this.about,
-      byDimension: this.byDimension
+      byDimension: this.byDimension,
+      related: this.related
     };
     if(this.id) {
       this.schoolServ.update(this.id, data).subscribe(
