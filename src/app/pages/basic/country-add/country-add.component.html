@@ -1,0 +1,9 @@
+<div>
+    名称：
+    <input type="text" nbInput fullWidth placeholder="名称" [(ngModel)]="name">
+    代码：
+    <input type="text" nbInput fullWidth placeholder="代码" [(ngModel)]="code">
+    <div class="text-right py-3">
+        <button nbButton status="primary" (click)="save()">{{ !id ? '新增' : '修改'}}</button>
+    </div>
+</div>

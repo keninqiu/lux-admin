@@ -35,8 +35,9 @@ import { SchoolService } from './services/school.service';
 import { SkillService } from './services/skill.service';
 import { CategoryService } from './services/category.service';
 
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

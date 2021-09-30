@@ -1,0 +1,14 @@
+<div>
+    名称：
+    <input type="text" nbInput fullWidth placeholder="名称" [(ngModel)]="name">
+    <div class="form-group">
+        所属国家：
+      <nb-select class="pr-3" placeholder="所属国家" [(selected)]="country">
+          <nb-option value="{{item._id}}" *ngFor="let item of countries">{{item.name}}</nb-option>
+      </nb-select>
+    </div>
+
+    <div class="text-right py-3">
+        <button nbButton status="primary" (click)="save()">{{ !id ? '新增' : '修改'}}</button>
+    </div>
+</div>

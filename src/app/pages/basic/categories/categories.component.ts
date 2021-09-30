@@ -4,7 +4,7 @@ import { Category } from '../../../interfaces/category.interface';
 import { Country } from '../../../interfaces/country.interface';
 import { CategoryService } from '../../../services/category.service';
 import { CountryService } from '../../../services/country.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'categories',
@@ -18,13 +18,14 @@ export class CategoriesComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private categoryServ: CategoryService, private countryServ: CountryService) {
+  constructor(private route: Router, private categoryServ: CategoryService, private countryServ: CountryService) {
 
     this.countryServ.getAll().subscribe(
       (countries: Country[]) => {
         this.countries = countries;
         const countryList = countries.map(item => {return {value: item._id, title: item.name};});
         this.settings = {
+          mode: 'external',
           actions: { columnTitle: '操作'},
           add: {
             addButtonContent: '<i class="nb-plus"></i>',
@@ -94,6 +95,7 @@ export class CategoriesComponent {
 
   }
 
+  /*
   onCreateConfirm(event): void {
     const data = event.newData;
     this.categoryServ.add(data).subscribe(
@@ -124,8 +126,19 @@ export class CategoriesComponent {
     );
     
   }
+  */
+  onEdit(event): void {
+    console.log('onEdit, event=', event);
+    const id = event.data._id;
+    this.route.navigate(['pages/basic/category/' + id + '/edit']);
+  }
 
-  onDeleteConfirm(event): void {
+  onCreate(event): void {
+    console.log('create');
+    this.route.navigate(['pages/basic/category/add']);
+  }
+
+  onDelete(event): void {
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;

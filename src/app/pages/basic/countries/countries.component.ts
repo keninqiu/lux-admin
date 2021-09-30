@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { Router } from '@angular/router';
 import { Country } from '../../../interfaces/country.interface';
 import { CountryService } from '../../../services/country.service';
 
@@ -13,6 +13,7 @@ export class CountriesComponent {
   count: number;
 
   settings = {
+    mode: 'external',
     actions: { columnTitle: '操作'},
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -48,7 +49,9 @@ export class CountriesComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private countryServ: CountryService) {
+  constructor(
+    private route: Router,
+    private countryServ: CountryService) {
     this.countryServ.getAll().subscribe(
       (countries: Country[]) => {
         this.count = countries.length;
@@ -57,33 +60,18 @@ export class CountriesComponent {
     );
   }
 
-  onCreateConfirm(event): void {
-    const data = event.newData;
-    this.countryServ.add(data).subscribe(
-      (ret: any) => {
-        event.confirm.resolve();
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
+  onEdit(event): void {
+    console.log('onEdit, event=', event);
+    const id = event.data._id;
+    this.route.navigate(['pages/basic/country/' + id + '/edit']);
   }
 
-  onEditConfirm(event): void {
-    const data = event.newData;
-    const id = data._id;
-   
-    this.countryServ.update(id, data).subscribe(
-      (ret: any) => {
-        event.confirm.resolve();
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
+  onCreate(event): void {
+    console.log('create');
+    this.route.navigate(['pages/basic/country/add']);
   }
 
-  onDeleteConfirm(event): void {
+  onDelete(event): void {
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;

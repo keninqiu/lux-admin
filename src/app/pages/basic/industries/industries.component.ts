@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { Router } from '@angular/router';
 import { Industry } from '../../../interfaces/industry.interface';
 import { IndustryService } from '../../../services/industry.service';
 import { CategoryService } from 'app/services/category.service';
@@ -19,6 +19,7 @@ export class IndustriesComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
+    private route: Router,
     private categoryServ: CategoryService,
     private industryServ: IndustryService) {
 
@@ -29,6 +30,7 @@ export class IndustriesComponent {
 
 
         this.settings = {
+          mode: 'external',
           actions: { columnTitle: '操作'},
           add: {
             addButtonContent: '<i class="nb-plus"></i>',
@@ -86,36 +88,18 @@ export class IndustriesComponent {
     );
   }
 
-  onCreateConfirm(event): void {
-    const data = event.newData;
-    this.industryServ.add(data).subscribe(
-      (ret: any) => {
-        console.log('ret in add country = ', ret);
-        event.confirm.resolve();
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
+  onEdit(event): void {
+    console.log('onEdit, event=', event);
+    const id = event.data._id;
+    this.route.navigate(['pages/basic/industry/' + id + '/edit']);
   }
 
-  onEditConfirm(event): void {
-    const data = event.newData;
-    const id = data._id;
-   
-    this.industryServ.update(id, data).subscribe(
-      (ret: any) => {
-        const newData = event.newData;
-        event.confirm.resolve(newData);
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
-    
+  onCreate(event): void {
+    console.log('create');
+    this.route.navigate(['pages/basic/industry/add']);
   }
 
-  onDeleteConfirm(event): void {
+  onDelete(event): void {
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;

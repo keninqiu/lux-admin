@@ -15,7 +15,15 @@ import { EmployersComponent } from './employers/employers.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { SchoolAddComponent } from './school-add/school-add.component';
 import { JobAddComponent } from './job-add/job-add.component';
-
+import { EmployerAddComponent } from './employer-add/employer-add.component';
+import { CategoryAddComponent } from './category-add/category-add.component';
+import { CertificationAddComponent } from './certification-add/certification-add.component';
+import { CityAddComponent } from './city-add/city-add.component';
+import { CountryAddComponent } from './country-add/country-add.component';
+import { DegreeAddComponent } from './degree-add/degree-add.component';
+import { IndustryAddComponent } from './industry-add/industry-add.component';
+import { SkillAddComponent } from './skill-add/skill-add.component';
+import { StateAddComponent } from './state-add/state-add.component';
 const routes: Routes = [{
   path: '',
   component: BasicComponent,
@@ -25,16 +33,48 @@ const routes: Routes = [{
       component: CountriesComponent,
     },
     {
+      path: 'country/add',
+      component: CountryAddComponent,
+    },
+    {
+      path: 'country/:id/edit',
+      component: CountryAddComponent,
+    },
+    {
       path: 'states',
       component: StatesComponent,
+    },
+    {
+      path: 'state/add',
+      component: StateAddComponent,
+    },
+    {
+      path: 'state/:id/edit',
+      component: StateAddComponent,
     },
     {
       path: 'cities',
       component: CitiesComponent,
     },
     {
+      path: 'city/add',
+      component: CityAddComponent,
+    },
+    {
+      path: 'city/:id/edit',
+      component: CityAddComponent,
+    },
+    {
       path: 'categories',
       component: CategoriesComponent,
+    },
+    {
+      path: 'category/add',
+      component: CategoryAddComponent,
+    },
+    {
+      path: 'category/:id/edit',
+      component: CategoryAddComponent,
     },
     {
       path: 'jobs',
@@ -53,12 +93,36 @@ const routes: Routes = [{
       component: EmployersComponent,
     },
     {
+      path: 'employer/add',
+      component: EmployerAddComponent,
+    },
+    {
+      path: 'employer/:id/edit',
+      component: EmployerAddComponent,
+    },
+    {
       path: 'degrees',
       component: DegreesComponent,
     },
     {
+      path: 'degree/add',
+      component: DegreeAddComponent,
+    },
+    {
+      path: 'degree/:id/edit',
+      component: EmployerAddComponent,
+    },
+    {
       path: 'industries',
       component: IndustriesComponent,
+    },
+    {
+      path: 'industry/add',
+      component: IndustryAddComponent,
+    },
+    {
+      path: 'industry/:id/edit',
+      component: IndustryAddComponent,
     },
     {
       path: 'schools',
@@ -77,12 +141,36 @@ const routes: Routes = [{
       component: CertificationsComponent,
     },
     {
+      path: 'certification/add',
+      component: CertificationAddComponent,
+    },
+    {
+      path: 'certification/:id/edit',
+      component: CertificationAddComponent,
+    },
+    {
       path: 'skills',
       component: SkillsComponent,
     },
     {
+      path: 'skill/add',
+      component: SkillAddComponent,
+    },
+    {
+      path: 'skill/:id/edit',
+      component: SkillAddComponent,
+    },
+    {
       path: 'categories',
       component: CategoriesComponent,
+    },
+    {
+      path: 'category/add',
+      component: CategoryAddComponent,
+    },
+    {
+      path: 'category/:id/edit',
+      component: CategoryAddComponent,
     },
   ],
 }];
@@ -107,5 +195,14 @@ export const routedComponents = [
   IndustriesComponent,
   CategoriesComponent,
   SchoolAddComponent,
-  JobAddComponent
+  JobAddComponent,
+  EmployerAddComponent, 
+  CategoryAddComponent, 
+  CertificationAddComponent, 
+  CityAddComponent, 
+  CountryAddComponent, 
+  DegreeAddComponent,
+  IndustryAddComponent,
+  SkillAddComponent,
+  StateAddComponent
 ];

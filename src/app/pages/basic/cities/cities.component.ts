@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { Router } from '@angular/router';
 import { City } from '../../../interfaces/city.interface';
 import { CityService } from '../../../services/city.service';
 import { State } from '../../../interfaces/state.interface';
@@ -19,7 +19,10 @@ export class CitiesComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private stateServ: StateService,private cityServ: CityService) {
+  constructor(
+    private route: Router,
+    private stateServ: StateService,
+    private cityServ: CityService) {
 
 
     this.stateServ.getAll().subscribe(
@@ -28,6 +31,7 @@ export class CitiesComponent {
         const stateList = states.map(item => {return {value: item._id, title: item.name};});
         console.log('stateList==', stateList);
         this.settings = {
+          mode: 'external',
           actions: { columnTitle: '操作'},
           add: {
             addButtonContent: '<i class="nb-plus"></i>',
@@ -88,36 +92,18 @@ export class CitiesComponent {
     );
   }
 
-  onCreateConfirm(event): void {
-    const data = event.newData;
-    this.cityServ.add(data).subscribe(
-      (ret: any) => {
-        const newData = event.newData;
-        event.confirm.resolve(newData);
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
+  onEdit(event): void {
+    console.log('onEdit, event=', event);
+    const id = event.data._id;
+    this.route.navigate(['pages/basic/city/' + id + '/edit']);
   }
 
-  onEditConfirm(event): void {
-    const data = event.newData;
-    const id = data._id;
-   
-    this.cityServ.update(id, data).subscribe(
-      (ret: any) => {
-        const newData = event.newData;
-        event.confirm.resolve(newData);
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
-    
+  onCreate(event): void {
+    console.log('create');
+    this.route.navigate(['pages/basic/city/add']);
   }
 
-  onDeleteConfirm(event): void {
+  onDelete(event): void {
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;

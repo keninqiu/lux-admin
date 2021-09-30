@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { Router } from '@angular/router';
 import { Certification } from '../../../interfaces/certification.interface';
 import { CertificationService } from '../../../services/certification.service';
 import { CategoryService } from 'app/services/category.service';
@@ -18,6 +18,7 @@ export class CertificationsComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
+    private route: Router,
     private categoryServ: CategoryService,
     private certificationServ: CertificationService) {
 
@@ -28,6 +29,7 @@ export class CertificationsComponent {
           const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
         
           this.settings = {
+            mode: 'external',
             add: {
               addButtonContent: '<i class="nb-plus"></i>',
               createButtonContent: '<i class="nb-checkmark"></i>',
@@ -85,35 +87,18 @@ export class CertificationsComponent {
     );
   }
 
-  onCreateConfirm(event): void {
-    const data = event.newData;
-    this.certificationServ.add(data).subscribe(
-      (ret: any) => {
-        event.confirm.resolve();
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
+  onEdit(event): void {
+    console.log('onEdit, event=', event);
+    const id = event.data._id;
+    this.route.navigate(['pages/basic/certification/' + id + '/edit']);
   }
 
-  onEditConfirm(event): void {
-    const data = event.newData;
-    const id = data._id;
-   
-    this.certificationServ.update(id, data).subscribe(
-      (ret: any) => {
-        const newData = event.newData;
-        event.confirm.resolve(newData);
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
-    
+  onCreate(event): void {
+    console.log('create');
+    this.route.navigate(['pages/basic/certification/add']);
   }
 
-  onDeleteConfirm(event): void {
+  onDelete(event): void {
     if (window.confirm('确定删除吗?')) {
       const data = event.data;
       const id = data._id;

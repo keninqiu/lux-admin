@@ -29,8 +29,8 @@ export class JobsComponent {
           const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
   
           this.settings = {
-            actions: { columnTitle: '操作'},
             mode: 'external',
+            actions: { columnTitle: '操作'},
             add: {
               addButtonContent: '<i class="nb-plus"></i>',
               createButtonContent: '<i class="nb-checkmark"></i>',

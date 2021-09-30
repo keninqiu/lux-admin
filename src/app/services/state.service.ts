@@ -7,11 +7,11 @@ import {ApiService} from './api.service';
 export class StateService {
   constructor(private api: ApiService) { }
 
-  add(item: State): Observable<State> {
+  add(item: any): Observable<State> {
     return this.api.postPrivate('state', item) as Observable<State>;
   }
 
-  update(id: string, item: State): Observable<State> {
+  update(id: string, item: any): Observable<State> {
     return this.api.putPrivate('state/' + id, item) as Observable<State>;
   }
 
