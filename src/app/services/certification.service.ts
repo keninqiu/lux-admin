@@ -7,11 +7,11 @@ import {ApiService} from './api.service';
 export class CertificationService {
   constructor(private api: ApiService) { }
 
-  add(item: Certification): Observable<Certification> {
+  add(item: any): Observable<Certification> {
     return this.api.postPrivate('certification', item) as Observable<Certification>;
   }
 
-  update(id: string, item: Certification): Observable<Certification> {
+  update(id: string, item: any): Observable<Certification> {
     return this.api.putPrivate('certification/' + id, item) as Observable<Certification>;
   }
 

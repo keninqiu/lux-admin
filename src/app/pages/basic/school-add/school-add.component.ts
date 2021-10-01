@@ -6,7 +6,6 @@ import { NbToastrService } from '@nebular/theme';
 import { Country } from 'app/interfaces/country.interface';
 import { CountryService } from 'app/services/country.service';
 import { Category } from 'app/interfaces/category.interface';
-import { StateService } from 'app/services/state.service';
 import { CategoryService } from 'app/services/category.service';
 
 @Component({
@@ -168,7 +167,6 @@ export class SchoolAddComponent implements OnInit {
     private schoolServ: SchoolService,
     private toastrServ: NbToastrService,
     private countryServ: CountryService,
-    private stateServ: StateService,
     private categoryServ: CategoryService,
     private route: ActivatedRoute) { }
 
@@ -216,9 +214,27 @@ export class SchoolAddComponent implements OnInit {
             this.category = school.category._id;
           }
           if(school.byDimension) {
-            this.byDimension = school.byDimension;
+            if(school.byDimension.experience) {
+              this.byDimension.experience = school.byDimension.experience;
+            }
+            if(school.byDimension.gender) {
+              this.byDimension.gender = school.byDimension.gender;
+            }   
+            if(school.byDimension.salaryByJob) {
+              this.byDimension.salaryByJob = school.byDimension.salaryByJob;
+            }      
+            if(school.byDimension.hourlyRateByJob) {
+              this.byDimension.hourlyRateByJob = school.byDimension.hourlyRateByJob;
+            }   
+            if(school.byDimension.salaryByEmployer) {
+              this.byDimension.salaryByEmployer = school.byDimension.salaryByEmployer;
+            }  
+            if(school.byDimension.hourlyRateByEmployer) {
+              this.byDimension.hourlyRateByEmployer = school.byDimension.hourlyRateByEmployer;
+            }      
           }
-          
+
+
           if(school.related) {
             this.related = school.related;
           }

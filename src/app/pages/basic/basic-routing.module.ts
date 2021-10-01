@@ -110,7 +110,7 @@ const routes: Routes = [{
     },
     {
       path: 'degree/:id/edit',
-      component: EmployerAddComponent,
+      component: DegreeAddComponent,
     },
     {
       path: 'industries',

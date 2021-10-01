@@ -1,1 +1,69 @@
-<p>industry-add works!</p>
+<nb-tabset>
+    <nb-tab tabTitle="行业信息">
+      <div *ngIf="url">
+        原始链接：{{url}}
+      </div>
+        行业名称：<input type="text" nbInput fullWidth placeholder="名称" [(ngModel)]="name">
+        <div class="py-3 d-flex">
+          <div>
+            <div>
+              所属国家：
+            </div>
+            <nb-select class="pr-3" placeholder="所属国家" [(selected)]="country">
+                <nb-option value="{{item._id}}" *ngFor="let item of countries">{{item.name}}</nb-option>
+            </nb-select>
+          </div>
+            <div>
+              <div>
+                所属类别：
+              </div>
+              <nb-select class="pr-3" placeholder="所属类别" [(selected)]="category">
+                <nb-option value="{{item._id}}" *ngFor="let item of categories">{{item.name}}</nb-option>
+            </nb-select>
+            </div>
+            <div>
+              <div>
+                货币代码：
+              </div>
+              <input type="text" nbInput fullWidth placeholder="货币代码" [(ngModel)]="currencyCode">
+            </div>
+        </div>
+    </nb-tab>
+    <nb-tab tabTitle="薪资数据">
+      <div>时薪</div>
+      <div class="d-flex pb-3">
+        <div class="w-100">
+          <div>最小值</div>
+          <input type="text" nbInput fullWidth placeholder="最小值" [(ngModel)]="compensation.hourlyRate.min">
+        </div>
+        <div class="w-100 ml-3">
+          <div>最大值</div>
+          <input type="text" nbInput fullWidth placeholder="最大值" [(ngModel)]="compensation.hourlyRate.max"> 
+        </div>
+        <div class="w-100 ml-3">
+          <div>平均值</div>            
+          <input type="text" nbInput fullWidth placeholder="平均值" [(ngModel)]="compensation.hourlyRate.avg">  
+        </div> 
+      </div>
+      <div>年薪</div>
+      <div class="d-flex pb-3">
+        <div class="w-100">
+          <div>最小值</div>
+          <input type="text" nbInput fullWidth placeholder="最小值" [(ngModel)]="compensation.salary.min">
+        </div>
+        <div class="w-100 ml-3">
+          <div>最大值</div>
+          <input type="text" nbInput fullWidth placeholder="最大值" [(ngModel)]="compensation.salary.max"> 
+        </div>
+        <div class="w-100 ml-3">
+          <div>平均值</div>            
+          <input type="text" nbInput fullWidth placeholder="平均值" [(ngModel)]="compensation.salary.avg">  
+        </div> 
+      </div>    
+    </nb-tab>
+</nb-tabset>
+<div class="text-right">
+    <button nbButton status="primary" (click)="save()">{{ !id ? '新增' : '修改'}}</button>
+</div>
+
+

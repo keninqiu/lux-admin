@@ -185,7 +185,6 @@ export class JobAddComponent implements OnInit {
           this.url = job.url;
           this.name = job.name;
           this.currencyCode = job.currencyCode;
-          console.log('job1111.===', job);
           
           if(job.compensation) {
             this.compensation = job.compensation;
@@ -195,16 +194,20 @@ export class JobAddComponent implements OnInit {
             this.category = job.category._id;
           }
           if(job.byDimension) {
-            this.byDimension = job.byDimension;
+            if(job.byDimension.experience) {
+              this.byDimension.experience = job.byDimension.experience;
+            }
+            if(job.byDimension.gender) {
+              this.byDimension.gender = job.byDimension.gender;
+            }   
+            if(job.byDimension.healthBenefit) {
+              this.byDimension.healthBenefit = job.byDimension.healthBenefit;
+            } 
           }
-          console.log('jobnnnn.careerPathData=', job.careerPathData);
           if(job.careerPathData) {
-            console.log('gooooo');
             this.careerPathData = job.careerPathData;
             this.careerPathDataChildren = job.careerPathData.children;
           }
-          //console.log('this.careerPathData==', this.careerPathData);
-          //console.log('careerPathData.children=', this.careerPathData.children);
           if(job.narratives) {
             this.narratives = job.narratives;
           }

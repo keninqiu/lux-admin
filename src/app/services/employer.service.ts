@@ -7,11 +7,11 @@ import {ApiService} from './api.service';
 export class EmployerService {
   constructor(private api: ApiService) { }
 
-  add(item: Employer): Observable<Employer> {
+  add(item: any): Observable<Employer> {
     return this.api.postPrivate('employer', item) as Observable<Employer>;
   }
 
-  update(id: string, item: Employer): Observable<Employer> {
+  update(id: string, item: any): Observable<Employer> {
     return this.api.putPrivate('employer/' + id, item) as Observable<Employer>;
   }
 
