@@ -8,6 +8,9 @@ import { CarouselsComponent } from './carousels/carousels.component';
 import { SalaryAddComponent } from './salary-add/salary-add.component';
 import { SalaryAddDetailsComponent } from './salary-add/details/details.component';
 import { SalaryAddDetailAddComponent } from './salary-add/detail-add/detail-add.component';
+import { ExperienceAddComponent } from './experience-add/experience-add.component';
+import { BestAddComponent } from './best-add/best-add.component';
+
 const routes: Routes = [{
   path: '',
   component: HomepageComponent,
@@ -23,6 +26,14 @@ const routes: Routes = [{
     {
       path: 'salary/add',
       component: SalaryAddComponent,
+    },
+    {
+      path: 'experience/add',
+      component: ExperienceAddComponent,
+    },
+    {
+      path: 'best/add',
+      component: BestAddComponent,
     },
     {
       path: 'salary/add/details',
@@ -65,5 +76,7 @@ export const routedComponents = [
   ChangeAddComponent,
   SalaryAddComponent,
   SalaryAddDetailsComponent,
-  SalaryAddDetailAddComponent
+  SalaryAddDetailAddComponent,
+  ExperienceAddComponent,
+  BestAddComponent
 ];

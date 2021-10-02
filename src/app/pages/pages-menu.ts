@@ -123,6 +123,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: '改变',
         link: 'homepage/change/add',
       },
+      {
+        title: '薪酬',
+        link: 'homepage/salary/add',
+      },
+      {
+        title: '经验',
+        link: 'homepage/experience/add',
+      },
+      {
+        title: '最好',
+        link: 'homepage/best/add',
+      }     
     ]
   }
 ];

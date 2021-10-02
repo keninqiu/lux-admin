@@ -23,6 +23,7 @@ export interface Homepage {
         actionLink: string,
         details: [
             {
+                _id: string,
                 title: string,
                 subtitle: string,
                 content: string

@@ -4,16 +4,15 @@ import { HomepageService } from 'app/services/homepage.service';
 import { NbToastrService } from '@nebular/theme';
 
 @Component({
-  selector: 'homepage-salary-add',
-  templateUrl: './salary-add.component.html',
-  styleUrls: ['./salary-add.component.scss']
+  selector: 'homepage-best-add',
+  templateUrl: './best-add.component.html',
+  styleUrls: ['./best-add.component.scss']
 })
-export class SalaryAddComponent implements OnInit {
+export class BestAddComponent implements OnInit {
   title: string;
   subtitle: string;
   actionText: string;
   actionLink: string;
-  details: any;
   constructor(
     private toastrServ: NbToastrService,
     private homepageServ: HomepageService) { }
@@ -21,12 +20,11 @@ export class SalaryAddComponent implements OnInit {
   ngOnInit(): void {
     this.homepageServ.getLatest().subscribe(
       (homepage: Homepage) => {
-        if(homepage && homepage.salary) {
-          this.title = homepage.salary.title;
-          this.subtitle = homepage.salary.subtitle;
-          this.actionText = homepage.salary.actionText;
-          this.actionLink = homepage.salary.actionLink;
-          this.details = homepage.salary.details;
+        if(homepage && homepage.best) {
+          this.title = homepage.best.title;
+          this.subtitle = homepage.best.subtitle;
+          this.actionText = homepage.best.actionText;
+          this.actionLink = homepage.best.actionLink;
         }
 
       }
@@ -34,13 +32,13 @@ export class SalaryAddComponent implements OnInit {
   }
 
   save() {
+    console.log('saving');
     const data = {
-      salary: {
+      best: {
         title: this.title,
         subtitle: this.subtitle,
         actionText: this.actionText,
-        actionLink: this.actionLink,
-        details: this.details
+        actionLink: this.actionLink
       }
     };
     this.homepageServ.updateLatest(data).subscribe(

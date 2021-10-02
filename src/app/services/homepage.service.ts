@@ -42,7 +42,18 @@ export class HomepageService {
     return this.api.postPrivate('homepage/carousel', data) as Observable<Homepage>;
   } 
 
+  updateSalaryDetail(id: string, data: any): Observable<Homepage> {
+    return this.api.putPrivate('homepage/salary/detail/' + id, data) as Observable<Homepage>;
+  } 
+  addSalaryDetail(data: any): Observable<Homepage> {
+    return this.api.postPrivate('homepage/salary/detail', data) as Observable<Homepage>;
+  } 
+
   deleteCarousel(id: string): Observable<Homepage> {
     return this.api.deletePrivate('homepage/carousel/' + id) as Observable<Homepage>;
+  } 
+
+  deleteSalaryDetail(id: string): Observable<Homepage> {
+    return this.api.deletePrivate('homepage/salary/detail/' + id) as Observable<Homepage>;
   } 
 }

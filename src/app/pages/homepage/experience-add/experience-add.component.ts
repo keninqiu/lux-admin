@@ -4,16 +4,15 @@ import { HomepageService } from 'app/services/homepage.service';
 import { NbToastrService } from '@nebular/theme';
 
 @Component({
-  selector: 'homepage-salary-add',
-  templateUrl: './salary-add.component.html',
-  styleUrls: ['./salary-add.component.scss']
+  selector: 'homepage-experience-add',
+  templateUrl: './experience-add.component.html',
+  styleUrls: ['./experience-add.component.scss']
 })
-export class SalaryAddComponent implements OnInit {
+export class ExperienceAddComponent implements OnInit {
   title: string;
   subtitle: string;
   actionText: string;
   actionLink: string;
-  details: any;
   constructor(
     private toastrServ: NbToastrService,
     private homepageServ: HomepageService) { }
@@ -21,12 +20,11 @@ export class SalaryAddComponent implements OnInit {
   ngOnInit(): void {
     this.homepageServ.getLatest().subscribe(
       (homepage: Homepage) => {
-        if(homepage && homepage.salary) {
-          this.title = homepage.salary.title;
-          this.subtitle = homepage.salary.subtitle;
-          this.actionText = homepage.salary.actionText;
-          this.actionLink = homepage.salary.actionLink;
-          this.details = homepage.salary.details;
+        if(homepage && homepage.experience) {
+          this.title = homepage.experience.title;
+          this.subtitle = homepage.experience.subtitle;
+          this.actionText = homepage.experience.actionText;
+          this.actionLink = homepage.experience.actionLink;
         }
 
       }
@@ -34,13 +32,13 @@ export class SalaryAddComponent implements OnInit {
   }
 
   save() {
+    console.log('saving');
     const data = {
-      salary: {
+      experience: {
         title: this.title,
         subtitle: this.subtitle,
         actionText: this.actionText,
-        actionLink: this.actionLink,
-        details: this.details
+        actionLink: this.actionLink
       }
     };
     this.homepageServ.updateLatest(data).subscribe(

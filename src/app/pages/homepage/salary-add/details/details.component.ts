@@ -42,12 +42,8 @@ export class SalaryAddDetailsComponent {
         title: '标题',
         type: 'string',
       },
-      actionText: {
-        title: '按钮文本',
-        type: 'string',
-      },
-      actionLink: {
-        title: '按钮链接',
+      content: {
+        title: '内容',
         type: 'string',
       }
     },
@@ -61,10 +57,12 @@ export class SalaryAddDetailsComponent {
     private homepageServ: HomepageService) {
     this.homepageServ.getLatest().subscribe(
       (homepage: Homepage) => {
-        if(homepage && homepage.carousels) {
-          const carousels = homepage.carousels;
-          this.count = carousels.length;
-          this.source.load(carousels);
+        console.log('homepage=', homepage);
+        if(homepage && homepage.salary) {
+          console.log('salary=' + homepage.salary);
+          const details = homepage.salary.details;
+          this.count = details.length;
+          this.source.load(details);
         }
 
       }
@@ -73,11 +71,11 @@ export class SalaryAddDetailsComponent {
 
   onEdit(event): void {
     const id = event.data._id;
-    this.route.navigate(['pages/homepage/carousel/' + id + '/edit']);
+    this.route.navigate(['pages/homepage/salary/add/detail/' + id + '/edit']);
   }
 
   onCreate(event): void {
-    this.route.navigate(['pages/homepage/carousel/add']);
+    this.route.navigate(['pages/homepage/salary/add/detail/add']);
   }
 
   onDelete(event): void {
@@ -85,7 +83,7 @@ export class SalaryAddDetailsComponent {
       const data = event.data;
       const id = data._id;
       
-      this.homepageServ.deleteCarousel(id).subscribe(
+      this.homepageServ.deleteSalaryDetail(id).subscribe(
         (ret: any) => {
           this.toastrServ.success('删除成功');
         },
