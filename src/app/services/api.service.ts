@@ -87,6 +87,39 @@ export class ApiService extends HttpClient{
         return ret;
     }
 
+    deletePrivate(uri: string) {
+        const token = localStorage.getItem("token");
+
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'authorization': token
+        });
+        const options: OPTIONS = {
+            headers: httpHeaders
+        };   
+
+        const ret = new Observable<any>((observer) => {
+            if(!token) {
+                observer.error('token not existed');
+            } else {
+                this.delete<any>(environment.API + uri, options).subscribe(
+                    (ret: any) => {
+                        if(ret && ret.success) {
+                            observer.next(ret.data);
+                        } else {
+                            observer.error(ret.error);
+                        }
+                    },
+                    (err: any) => {
+                        observer.error(err.error);
+                    }
+                );
+            }         
+
+        });
+        return ret;
+    }
+
     postPrivate(uri: string, data: any) {
         const token = localStorage.getItem("token");
         const httpHeaders = new HttpHeaders({

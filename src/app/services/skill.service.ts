@@ -19,6 +19,10 @@ export class SkillService {
     return this.api.getPrivate('skill') as Observable<Skill[]>;
   }
 
+  getAllWithoutDuplicate(): Observable<Skill[]> {
+    return this.api.getPrivate('skill/all/withoutDuplicate') as Observable<Skill[]>;
+  }
+
   get(id: string): Observable<Skill> {
     return this.api.getPublic('skill/' + id) as Observable<Skill>;
   }

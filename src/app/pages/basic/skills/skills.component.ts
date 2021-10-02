@@ -52,6 +52,13 @@ export class SkillsComponent {
                 title: '名称',
                 type: 'string',
               },
+              namet: {
+                title: '中文名称',
+                type: 'html',
+                valuePrepareFunction: (cell, row) => { 
+                  return cell.zh;
+                }
+              },
               url: {
                 title: '链接',
                 type: 'string',
@@ -81,7 +88,7 @@ export class SkillsComponent {
         });
 
 
-    this.skillServ.getAll().subscribe(
+    this.skillServ.getAllWithoutDuplicate().subscribe(
       (skills: Skill[]) => {
         this.count = skills.length;
         this.source.load(skills);

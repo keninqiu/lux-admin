@@ -19,6 +19,10 @@ export class DegreeService {
     return this.api.getPublic('degree') as Observable<Degree[]>;
   }
 
+  getAllWithoutDuplicate(): Observable<Degree[]> {
+    return this.api.getPrivate('degree/all/withoutDuplicate') as Observable<Degree[]>;
+  }
+
   get(id: string): Observable<Degree> {
     return this.api.getPublic('degree/' + id) as Observable<Degree>;
   }

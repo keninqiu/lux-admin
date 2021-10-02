@@ -19,6 +19,10 @@ export class IndustryService {
     return this.api.getPrivate('industry') as Observable<Industry[]>;
   }
 
+  getAllWithoutDuplicate(): Observable<Industry[]> {
+    return this.api.getPrivate('industry/all/withoutDuplicate') as Observable<Industry[]>;
+  }
+
   get(id: string): Observable<Industry> {
     return this.api.getPublic('industry/' + id) as Observable<Industry>;
   }

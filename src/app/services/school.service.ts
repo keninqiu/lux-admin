@@ -19,6 +19,10 @@ export class SchoolService {
     return this.api.getPrivate('school') as Observable<School[]>;
   }
 
+  getAllWithoutDuplicate(): Observable<School[]> {
+    return this.api.getPrivate('school/all/withoutDuplicate') as Observable<School[]>;
+  }
+
   getAllWithRawData(): Observable<School[]> {
     return this.api.getPrivate('school/all/withRawData') as Observable<School[]>;
   }

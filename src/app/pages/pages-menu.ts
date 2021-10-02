@@ -57,53 +57,72 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ]
   },
-  /*
   {
-    title: '薪资数据',
+    title: '翻译',
     icon: 'lock-outline',
     children: [
       {
         title: '国家/地区',
-        link: 'salary/countries',
+        link: 'translate/translates/Country',
       },
       {
         title: '州/省',
-        link: 'salary/states',
+        link: 'translate/translates/State',
       },
       {
         title: '城市',
-        link: 'salary/cities',
+        link: 'translate/translates/City',
+      },
+      {
+        title: '类别',
+        link: 'translate/translates/Category',
       },
       {
         title: '职位',
-        link: 'salary/jobs',
+        link: 'translate/translates/Job',
       },
       {
         title: '学校',
-        link: 'salary/schools',
+        link: 'translate/translates/School',
       },
       {
         title: '公司',
-        link: 'salary/employers',
+        link: 'translate/translates/Employer',
       },
       {
         title: '学位',
-        link: 'salary/degrees',
+        link: 'translate/translates/Degree',
       },
       {
         title: '行业',
-        link: 'salary/industries',
+        link: 'translate/translates/Industry',
       },
       {
         title: '证书',
-        link: 'salary/certifications',
+        link: 'translate/translates/Certification',
       },
       {
         title: '技能',
-        link: 'salary/skills',
+        link: 'translate/translates/Skill',
+      }
+    ]
+  },
+  {
+    title: '主页模版',
+    icon: 'lock-outline',
+    children: [
+      {
+        title: '公告',
+        link: 'homepage/adv/add',
+      },
+      {
+        title: '轮播广告',
+        link: 'homepage/carousels',
+      },
+      {
+        title: '改变',
+        link: 'homepage/change/add',
       },
     ]
   }
-  */
-
 ];

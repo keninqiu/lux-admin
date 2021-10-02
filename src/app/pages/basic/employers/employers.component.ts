@@ -54,6 +54,13 @@ export class EmployersComponent {
               title: '名称',
               type: 'string',
             },
+            namet: {
+              title: '中文名称',
+              type: 'html',
+              valuePrepareFunction: (cell, row) => { 
+                return cell.zh;
+              }
+            },
             url: {
               title: '链接',
               type: 'string',
@@ -87,7 +94,7 @@ export class EmployersComponent {
     );    
 
 
-    this.employerServ.getAll().subscribe(
+    this.employerServ.getAllWithoutDuplicate().subscribe(
       (employers: Employer[]) => {
         this.count = employers.length;
         this.source.load(employers);

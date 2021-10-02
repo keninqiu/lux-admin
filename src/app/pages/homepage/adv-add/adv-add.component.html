@@ -1,0 +1,10 @@
+<div>
+    文字：
+    <input type="text" nbInput fullWidth placeholder="文字" [(ngModel)]="text">
+    
+    链接：
+    <input type="text" nbInput fullWidth placeholder="链接" [(ngModel)]="url">
+    <div class="text-right py-3">
+        <button nbButton status="primary" (click)="save()">{{'修改'}}</button>
+    </div>
+</div>

@@ -44,13 +44,16 @@ export class CategoriesComponent {
             confirmDelete: true,
           },
           columns: {
-            _id: {
-              title: 'ID',
-              type: 'string',
-            },
             name: {
               title: '名称',
               type: 'string',
+            },
+            namet: {
+              title: '中文名称',
+              type: 'html',
+              valuePrepareFunction: (cell, row) => { 
+                return cell.zh;
+              }
             },
             type: {
               title: '类型',

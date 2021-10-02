@@ -1,0 +1,13 @@
+<div>
+    标题：
+    <input type="text" nbInput fullWidth placeholder="标题" [(ngModel)]="title">
+    
+    副标题：
+    <input type="text" nbInput fullWidth placeholder="副标题" [(ngModel)]="subtitle">
+
+    内容：
+    <input type="text" nbInput fullWidth placeholder="内容" [(ngModel)]="content">
+    <div class="text-right py-3">
+        <button nbButton status="primary" (click)="save()">{{'修改'}}</button>
+    </div>
+</div>

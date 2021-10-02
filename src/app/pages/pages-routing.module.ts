@@ -23,6 +23,16 @@ const routes: Routes = [{
         .then(m => m.SalaryModule),
     },
     {
+      path: 'translate',
+      loadChildren: () => import('./translate/translate.module')
+        .then(m => m.TranslateModule),
+    },
+    {
+      path: 'homepage',
+      loadChildren: () => import('./homepage/homepage.module')
+        .then(m => m.HomepageModule),
+    },
+    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',

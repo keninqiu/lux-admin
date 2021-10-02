@@ -51,6 +51,13 @@ export class StatesComponent {
               title: '名称',
               type: 'string',
             },
+            namet: {
+              title: '中文名称',
+              type: 'html',
+              valuePrepareFunction: (cell, row) => { 
+                return cell.zh;
+              }
+            },
             url: {
               title: '链接',
               type: 'string',

@@ -1,0 +1,11 @@
+<div>
+    <div>
+        英文：{{en}}
+    </div>
+    
+    中文：
+    <input type="text" nbInput fullWidth placeholder="中文" [(ngModel)]="zh">
+    <div class="text-right py-3">
+        <button nbButton status="primary" (click)="save()">{{ !id ? '新增' : '修改'}}</button>
+    </div>
+</div>

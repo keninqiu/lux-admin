@@ -54,6 +54,13 @@ export class SchoolsComponent {
               title: '名称',
               type: 'string',
             },
+            namet: {
+              title: '中文名称',
+              type: 'html',
+              valuePrepareFunction: (cell, row) => { 
+                return cell.zh;
+              }
+            },
             url: {
               title: '链接',
               type: 'string',
@@ -87,7 +94,7 @@ export class SchoolsComponent {
     );
 
 
-    this.schoolServ.getAll().subscribe(
+    this.schoolServ.getAllWithoutDuplicate().subscribe(
       (schools: School[]) => {
         this.count = schools.length;
         this.source.load(schools);

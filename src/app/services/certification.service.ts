@@ -19,6 +19,10 @@ export class CertificationService {
     return this.api.getPrivate('certification') as Observable<Certification[]>;
   }
 
+  getAllWithoutDuplicate(): Observable<Certification[]> {
+    return this.api.getPrivate('certification/all/withoutDuplicate') as Observable<Certification[]>;
+  }
+  
   get(id: string): Observable<Certification> {
     return this.api.getPublic('certification/' + id) as Observable<Certification>;
   }

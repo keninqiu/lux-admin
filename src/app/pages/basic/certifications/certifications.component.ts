@@ -51,6 +51,13 @@ export class CertificationsComponent {
                 title: '名称',
                 type: 'string',
               },
+              namet: {
+                title: '中文名称',
+                type: 'html',
+                valuePrepareFunction: (cell, row) => { 
+                  return cell.zh;
+                }
+              },
               url: {
                 title: '链接',
                 type: 'string',
@@ -79,7 +86,7 @@ export class CertificationsComponent {
           };
         });
 
-    this.certificationServ.getAll().subscribe(
+    this.certificationServ.getAllWithoutDuplicate().subscribe(
       (certifications: Certification[]) => {
         this.count = certifications.length;
         this.source.load(certifications);
