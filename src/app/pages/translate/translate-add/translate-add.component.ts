@@ -34,6 +34,7 @@ export class TranslateAddComponent implements OnInit {
 
   save() {
     const data = {
+      en: this.en,
       zh: this.zh
     };
     if(this.id) {
