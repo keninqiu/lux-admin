@@ -1,8 +1,12 @@
 <div>
-    英文：
+    英文名称：
     <input type="text" nbInput fullWidth placeholder="英文" [(ngModel)]="en">
-    中文：
+    中文名称：
     <input type="text" nbInput fullWidth placeholder="中文" [(ngModel)]="zh">
+    英文简介：
+    <textarea type="text" nbInput fullWidth placeholder="英文简介" [(ngModel)]="desc"></textarea>
+    中文简介：
+    <textarea type="text" nbInput fullWidth placeholder="中文简介" [(ngModel)]="desczh"></textarea>
     <div class="text-right py-3">
         <button nbButton status="primary" (click)="save()">{{ !id ? '新增' : '修改'}}</button>
     </div>

@@ -14,6 +14,8 @@ export class TranslateAddComponent implements OnInit {
   id: string;
   en: string;
   zh: string;
+  desc: string;
+  desczh: string;
   constructor(
     private location: Location,
     private router: Router,
@@ -28,6 +30,8 @@ export class TranslateAddComponent implements OnInit {
         (translate: Translate) => {
           this.en = translate.en;
           this.zh = translate.zh;
+          this.desc = translate.desc,
+          this.desczh = translate.desczh;
         });
       });
   }
