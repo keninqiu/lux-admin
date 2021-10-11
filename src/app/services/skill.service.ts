@@ -19,6 +19,14 @@ export class SkillService {
     return this.api.getPrivate('skill') as Observable<Skill[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('skill/count') as Observable<number>;
+  }
+  
+  getSkills(currentPage: number, pageSize: number) {
+    return this.api.getPublic('skill/' + currentPage + '/' + pageSize) as Observable<Skill[]>;
+  }
+
   getAllWithoutDuplicate(): Observable<Skill[]> {
     return this.api.getPrivate('skill/all/withoutDuplicate') as Observable<Skill[]>;
   }

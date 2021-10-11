@@ -19,6 +19,14 @@ export class CityService {
     return this.api.getPrivate('city') as Observable<City[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('city/count') as Observable<number>;
+  }
+  
+  getCities(currentPage: number, pageSize: number) {
+    return this.api.getPublic('city/' + currentPage + '/' + pageSize) as Observable<City[]>;
+  }
+
   get(id: string): Observable<City> {
     return this.api.getPublic('city/' + id) as Observable<City>;
   }

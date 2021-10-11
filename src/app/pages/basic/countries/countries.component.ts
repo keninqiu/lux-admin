@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
 import { Country } from '../../../interfaces/country.interface';
@@ -9,11 +9,18 @@ import { CountryService } from '../../../services/country.service';
   templateUrl: './countries.component.html',
   styleUrls: ['./countries.component.scss']
 })
-export class CountriesComponent {
-  count: number;
+export class CountriesComponent implements OnInit{
+  pageSize = 30;
+  currentPage = 1;
+  showPerPage = 10;
+  totalCount: number;
 
   settings = {
     mode: 'external',
+    pager:{
+      display: true,
+      perPage: this.showPerPage,
+    },
     actions: { columnTitle: '操作'},
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -59,12 +66,52 @@ export class CountriesComponent {
   constructor(
     private route: Router,
     private countryServ: CountryService) {
-    this.countryServ.getAll().subscribe(
-      (countries: Country[]) => {
-        this.count = countries.length;
-        this.source.load(countries);
+      this.countryServ.getCount().subscribe(
+        (count: number) => {
+          this.totalCount = count;
+        }
+      );
+    
+  }
+
+  ngOnInit() {
+    this.initData();
+    this.initOnChagedData();
+  }
+
+  initData(){
+    this.source = new LocalDataSource();
+    this.countryServ.getCountries(this.currentPage, this.pageSize).subscribe( (result: Country[]) => {
+      if(!result){
+        return;
       }
-    );
+      this.source.load(result);
+    }
+    )
+  }
+
+
+  initOnChagedData(){
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  pageChange(pageIndex) {
+    var getNew = pageIndex * this.showPerPage;
+    if( getNew >= this.source.count() && getNew < this.totalCount){
+      this.currentPage = this.currentPage + 1;
+      this.countryServ.getCountries(this.currentPage, this.pageSize).subscribe( (result: Country[]) => {
+        if(!result){
+          return;
+        }
+        result.forEach(element => {
+          this.source.add(element);
+        });
+      })
+    }
   }
 
   onEdit(event): void {

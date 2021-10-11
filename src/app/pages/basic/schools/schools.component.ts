@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalDataSource, Ng2SmartTableComponent } from 'ng2-smart-table';
 
 import { School } from '../../../interfaces/school.interface';
@@ -12,8 +12,11 @@ import { Router } from '@angular/router';
   templateUrl: './schools.component.html',
   styleUrls: ['./schools.component.scss']
 })
-export class SchoolsComponent {
-  count: number;
+export class SchoolsComponent implements OnInit {
+  totalCount: number;
+  pageSize = 30;
+  currentPage = 1;
+  showPerPage = 10;
   categories: any;
   cities: any;
   settings: any;
@@ -25,83 +28,90 @@ export class SchoolsComponent {
     private schoolServ: SchoolService, 
     private categoryServ: CategoryService) {
 
-    this.categoryServ.getAllByType('School').subscribe(
-      (categories: Category[]) => {
-        this.categories = categories;
-        const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
-
-        this.settings = {
-          actions: { columnTitle: '操作'},
-          add: {
-            addButtonContent: '<i class="nb-plus"></i>',
-            createButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmCreate: true
+      this.settings = {
+        mode: 'external',
+        actions: { columnTitle: '操作'},
+        add: {
+          addButtonContent: '<i class="nb-plus"></i>',
+          createButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmCreate: true
+        },
+        edit: {
+          editButtonContent: '<i class="nb-edit"></i>',
+          saveButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmSave: true
+        },
+        delete: {
+          deleteButtonContent: '<i class="nb-trash"></i>',
+          confirmDelete: true,
+        },
+        columns: {
+          name: {
+            title: '名称',
+            type: 'string',
           },
-          edit: {
-            editButtonContent: '<i class="nb-edit"></i>',
-            saveButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmSave: true
+          namet: {
+            title: '中文名称',
+            type: 'html',
+            valuePrepareFunction: (cell, row) => { 
+              return cell.zh;
+            }
           },
-          delete: {
-            deleteButtonContent: '<i class="nb-trash"></i>',
-            confirmDelete: true,
-          },
-          mode: 'external',
-          columns: {
-            name: {
-              title: '名称',
-              type: 'string',
-            },
-            namet: {
-              title: '中文名称',
-              type: 'html',
-              valuePrepareFunction: (cell, row) => { 
-                return cell.zh;
-              }
-            },
-            url: {
-              title: '链接',
-              type: 'string',
-            },
-            category: {
-              title: '类别',
-              type: 'html',
-              valuePrepareFunction: (cell, row) => { 
-                
-                const theCategory = this.categories.filter(item => item._id == cell);
-                if(theCategory && theCategory.length > 0) {
-                  const item = theCategory[0];
-                  return item.country.name + '-' + item.name;
-                }
-                
-                return cell;
-              },
-              editor: {
-                type: 'list',
-                config: {
-                  list: categoryList,
-                },
-              },
-            },
-          },
-
-        };
-  
-    
-      }
-    );
+          url: {
+            title: '链接',
+            type: 'string',
+          } 
+        },
+      };
 
 
-    this.schoolServ.getAllWithoutDuplicate().subscribe(
-      (schools: School[]) => {
-        this.count = schools.length;
-        this.source.load(schools);
-      }
-    );
+      this.schoolServ.getCount().subscribe(
+        (count: number) => {
+          this.totalCount = count;
+        }
+      );
   }
 
+  ngOnInit() {
+    this.initData();
+    this.initOnChagedData();
+  }
+
+  initData(){
+    this.source = new LocalDataSource();
+    this.schoolServ.getSchools(this.currentPage, this.pageSize).subscribe( (result: School[]) => {
+      if(!result){
+        return;
+      }
+      this.source.load(result);
+    }
+    )
+  }
+  
+  initOnChagedData(){
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  pageChange(pageIndex) {
+    var getNew = pageIndex * this.showPerPage;
+    if( getNew >= this.source.count() && getNew < this.totalCount){
+      this.currentPage = this.currentPage + 1;
+      this.schoolServ.getSchools(this.currentPage, this.pageSize).subscribe( (result: School[]) => {
+        if(!result){
+          return;
+        }
+        result.forEach(element => {
+          this.source.add(element);
+        });
+      })
+    }
+  }
 
   onEdit(event): void {
     console.log('onEdit, event=', event);
@@ -114,36 +124,6 @@ export class SchoolsComponent {
     this.route.navigate(['pages/basic/school/add']);
   }
 
-  /*
-  onCreateConfirm(event): void {
-    const data = event.newData;
-    this.schoolServ.add(data).subscribe(
-      (ret: any) => {
-        console.log('ret in add country = ', ret);
-        event.confirm.resolve();
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
-  }
-
-  onEditConfirm(event): void {
-    const data = event.newData;
-    const id = data._id;
-   
-    this.schoolServ.update(id, data).subscribe(
-      (ret: any) => {
-        const newData = event.newData;
-        event.confirm.resolve(newData);
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
-    
-  }
-  */
   onDelete(event): void {
     console.log('event for delete=', event);
     if (window.confirm('确定删除吗?')) {

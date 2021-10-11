@@ -19,6 +19,14 @@ export class DegreeService {
     return this.api.getPublic('degree') as Observable<Degree[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('degree/count') as Observable<number>;
+  }
+  
+  getDegrees(currentPage: number, pageSize: number) {
+    return this.api.getPublic('degree/' + currentPage + '/' + pageSize) as Observable<Degree[]>;
+  }
+
   getAllWithoutDuplicate(): Observable<Degree[]> {
     return this.api.getPrivate('degree/all/withoutDuplicate') as Observable<Degree[]>;
   }

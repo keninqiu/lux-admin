@@ -19,6 +19,14 @@ export class CertificationService {
     return this.api.getPrivate('certification') as Observable<Certification[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('certification/count') as Observable<number>;
+  }
+  
+  getCertifications(currentPage: number, pageSize: number) {
+    return this.api.getPublic('certification/' + currentPage + '/' + pageSize) as Observable<Certification[]>;
+  }
+
   getAllWithoutDuplicate(): Observable<Certification[]> {
     return this.api.getPrivate('certification/all/withoutDuplicate') as Observable<Certification[]>;
   }

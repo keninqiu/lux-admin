@@ -19,6 +19,14 @@ export class IndustryService {
     return this.api.getPrivate('industry') as Observable<Industry[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('industry/count') as Observable<number>;
+  }
+  
+  getIndustries(currentPage: number, pageSize: number) {
+    return this.api.getPublic('industry/' + currentPage + '/' + pageSize) as Observable<Industry[]>;
+  }
+
   getAllWithoutDuplicate(): Observable<Industry[]> {
     return this.api.getPrivate('industry/all/withoutDuplicate') as Observable<Industry[]>;
   }

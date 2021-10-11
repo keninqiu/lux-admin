@@ -19,6 +19,14 @@ export class SchoolService {
     return this.api.getPrivate('school') as Observable<School[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('school/count') as Observable<number>;
+  }
+  
+  getSchools(currentPage: number, pageSize: number) {
+    return this.api.getPublic('school/' + currentPage + '/' + pageSize) as Observable<School[]>;
+  }
+
   getAllWithoutDuplicate(): Observable<School[]> {
     return this.api.getPrivate('school/all/withoutDuplicate') as Observable<School[]>;
   }

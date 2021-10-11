@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Category } from '../../../interfaces/category.interface';
 import { Country } from '../../../interfaces/country.interface';
@@ -11,8 +11,11 @@ import { Router } from '@angular/router';
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss']
 })
-export class CategoriesComponent {
-  count: number;
+export class CategoriesComponent implements OnInit {
+  totalCount: number;
+  pageSize = 30;
+  currentPage = 1;
+  showPerPage = 10;
   countries: any;
   settings: any;
 
@@ -89,47 +92,55 @@ export class CategoriesComponent {
       }
     );
 
-    this.categoryServ.getAll().subscribe(
-      (categories: Category[]) => {
-        this.count = categories.length;
-        this.source.load(categories);
+    this.categoryServ.getCount().subscribe(
+      (count: number) => {
+        this.totalCount = count;
       }
     );
 
   }
 
-  /*
-  onCreateConfirm(event): void {
-    const data = event.newData;
-    this.categoryServ.add(data).subscribe(
-      (ret: any) => {
-        console.log('ret in add country = ', ret);
-        const newData = event.newData;
-        event.confirm.resolve(newData);
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
+  ngOnInit() {
+    this.initData();
+    this.initOnChagedData();
   }
 
-  onEditConfirm(event): void {
-    const data = event.newData;
-    const id = data._id;
-   
-    this.categoryServ.update(id, data).subscribe(
-      (ret: any) => {
-        console.log('ret in update country = ', ret);
-        const newData = event.newData;
-        event.confirm.resolve(newData);
-      },
-      (error: any) => {
-        event.confirm.reject();
+  initData(){
+    this.source = new LocalDataSource();
+    this.categoryServ.getCategories(this.currentPage, this.pageSize).subscribe( (result: Category[]) => {
+      if(!result){
+        return;
       }
-    );
-    
+      this.source.load(result);
+    }
+    )
   }
-  */
+
+
+  initOnChagedData(){
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  pageChange(pageIndex) {
+    var getNew = pageIndex * this.showPerPage;
+    if( getNew >= this.source.count() && getNew < this.totalCount){
+      this.currentPage = this.currentPage + 1;
+      this.categoryServ.getCategories(this.currentPage, this.pageSize).subscribe( (result: Category[]) => {
+        if(!result){
+          return;
+        }
+        result.forEach(element => {
+          this.source.add(element);
+        });
+      })
+    }
+  }
+
+
   onEdit(event): void {
     console.log('onEdit, event=', event);
     const id = event.data._id;

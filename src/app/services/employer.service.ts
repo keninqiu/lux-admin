@@ -19,6 +19,14 @@ export class EmployerService {
     return this.api.getPrivate('employer') as Observable<Employer[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('employer/count') as Observable<number>;
+  }
+  
+  getEmployers(currentPage: number, pageSize: number) {
+    return this.api.getPublic('employer/' + currentPage + '/' + pageSize) as Observable<Employer[]>;
+  }
+
   getAllWithoutDuplicate(): Observable<Employer[]> {
     return this.api.getPrivate('employer/all/withoutDuplicate') as Observable<Employer[]>;
   }

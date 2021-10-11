@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -11,7 +11,11 @@ import { TranslateService } from '../../../services/translate.service';
   styleUrls: ['./translates.component.scss']
 })
 export class TranslatesComponent {
-  count: number;
+  totalCount: number;
+  type: string;
+  pageSize = 30;
+  currentPage = 1;
+  showPerPage = 10;
 
   settings = {
     mode: 'external',
@@ -52,13 +56,50 @@ export class TranslatesComponent {
     private translateServ: TranslateService) {
       this.route.paramMap.subscribe( paramMap => {
         const type = paramMap.get('type');
-        this.translateServ.getAllByType(type).subscribe(
-          (translates: Translate[]) => {
-            this.count = translates.length;
-            this.source.load(translates);
+        this.type = type;
+        this.initData();
+        this.initOnChagedData();
+        this.translateServ.getCountByType(type).subscribe(
+          (count: number) => {
+            this.totalCount = count;
           }
         );
+
       });
+  }
+
+  initData(){
+    this.source = new LocalDataSource();
+    this.translateServ.getTranslatesByType(this.type, this.currentPage, this.pageSize).subscribe( (result: Translate[]) => {
+      if(!result){
+        return;
+      }
+      this.source.load(result);
+    }
+    )
+  }
+  
+  initOnChagedData(){
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  pageChange(pageIndex) {
+    var getNew = pageIndex * this.showPerPage;
+    if( getNew >= this.source.count() && getNew < this.totalCount){
+      this.currentPage = this.currentPage + 1;
+      this.translateServ.getTranslatesByType(this.type, this.currentPage, this.pageSize).subscribe( (result: Translate[]) => {
+        if(!result){
+          return;
+        }
+        result.forEach(element => {
+          this.source.add(element);
+        });
+      })
+    }
   }
 
   onEdit(event): void {

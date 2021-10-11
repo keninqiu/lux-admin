@@ -19,6 +19,14 @@ export class CountryService {
     return this.api.getPublic('country') as Observable<Country[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('country/count') as Observable<number>;
+  }
+  
+  getCountries(currentPage: number, pageSize: number) {
+    return this.api.getPublic('country/' + currentPage + '/' + pageSize) as Observable<Country[]>;
+  }
+
   get(id: string): Observable<Country> {
     return this.api.getPublic('country/' + id) as Observable<Country>;
   }
@@ -26,4 +34,6 @@ export class CountryService {
   deleteMany(ids: string[]): Observable<any> {
     return this.api.postPrivate('country/deleteMany', ids);
   }
+
+
 }

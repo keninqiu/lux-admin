@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
 import { Job } from '../../../interfaces/job.interface';
@@ -11,8 +11,11 @@ import { Category } from 'app/interfaces/category.interface';
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss']
 })
-export class JobsComponent {
-  count: number;
+export class JobsComponent implements OnInit {
+  totalCount: number;
+  pageSize = 30;
+  currentPage = 1;
+  showPerPage = 10;
   settings: any;
   categories: any;
   source: LocalDataSource = new LocalDataSource();
@@ -22,109 +25,91 @@ export class JobsComponent {
     private route: Router,
     private jobServ: JobService) {
 
+      this.settings = {
+        mode: 'external',
+        actions: { columnTitle: '操作'},
+        add: {
+          addButtonContent: '<i class="nb-plus"></i>',
+          createButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmCreate: true
+        },
+        edit: {
+          editButtonContent: '<i class="nb-edit"></i>',
+          saveButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmSave: true
+        },
+        delete: {
+          deleteButtonContent: '<i class="nb-trash"></i>',
+          confirmDelete: true,
+        },
+        columns: {
+          name: {
+            title: '名称',
+            type: 'string',
+          },
+          namet: {
+            title: '中文名称',
+            type: 'html',
+            valuePrepareFunction: (cell, row) => { 
+              return cell.zh;
+            }
+          },
+          url: {
+            title: '链接',
+            type: 'string',
+          } 
+        },
+      };
 
-      this.categoryServ.getAllByType('Job').subscribe(
-        (categories: Category[]) => {
-          this.categories = categories;
-          const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
+
+      this.jobServ.getCount().subscribe(
+        (count: number) => {
+          this.totalCount = count;
+        }
+      );
+
+  }
+
+  ngOnInit() {
+    this.initData();
+    this.initOnChagedData();
+  }
+
+  initData(){
+    this.source = new LocalDataSource();
+    this.jobServ.getJobs(this.currentPage, this.pageSize).subscribe( (result: Job[]) => {
+      if(!result){
+        return;
+      }
+      this.source.load(result);
+    }
+    )
+  }
   
-          this.settings = {
-            mode: 'external',
-            actions: { columnTitle: '操作'},
-            add: {
-              addButtonContent: '<i class="nb-plus"></i>',
-              createButtonContent: '<i class="nb-checkmark"></i>',
-              cancelButtonContent: '<i class="nb-close"></i>',
-              confirmCreate: true
-            },
-            edit: {
-              editButtonContent: '<i class="nb-edit"></i>',
-              saveButtonContent: '<i class="nb-checkmark"></i>',
-              cancelButtonContent: '<i class="nb-close"></i>',
-              confirmSave: true
-            },
-            delete: {
-              deleteButtonContent: '<i class="nb-trash"></i>',
-              confirmDelete: true,
-            },
-            columns: {
-              name: {
-                title: '名称',
-                type: 'string',
-              },
-              namet: {
-                title: '中文名称',
-                type: 'html',
-                valuePrepareFunction: (cell, row) => { 
-                  return cell.zh;
-                }
-              },
-              url: {
-                title: '链接',
-                type: 'string',
-              },
-              category: {
-                title: '类别',
-                type: 'html',
-                valuePrepareFunction: (cell, row) => { 
-                  
-                  const theCategory = this.categories.filter(item => item._id == cell);
-                  if(theCategory && theCategory.length > 0) {
-                    const item = theCategory[0];
-                    return item.country.name + '-' + item.name;
-                  }
-                
-                  return cell;
-                },
-                editor: {
-                  type: 'list',
-                  config: {
-                    list: categoryList,
-                  },
-                },
-              },
-            },
-          };
+  initOnChagedData(){
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  pageChange(pageIndex) {
+    var getNew = pageIndex * this.showPerPage;
+    if( getNew >= this.source.count() && getNew < this.totalCount){
+      this.currentPage = this.currentPage + 1;
+      this.jobServ.getJobs(this.currentPage, this.pageSize).subscribe( (result: Job[]) => {
+        if(!result){
+          return;
+        }
+        result.forEach(element => {
+          this.source.add(element);
         });
-
-
-    this.jobServ.getAllWithoutDuplicate().subscribe(
-      (jobs: Job[]) => {
-        this.count = jobs.length;
-        this.source.load(jobs);
-      }
-    );
+      })
+    }
   }
-
-  /*
-  onCreateConfirm(event): void {
-    console.log('event in onCreateConfirm=', event);
-    const data = event.newData;
-    this.jobServ.add(data).subscribe(
-      (ret: any) => {
-        console.log('ret in add country = ', ret);
-        event.confirm.resolve();
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
-  }
-
-  onEditConfirm(event): void {
-    const data = event.newData;
-    const id = data._id;
-   
-    this.jobServ.update(id, data).subscribe(
-      (ret: any) => {
-        event.confirm.resolve();
-      },
-      (error: any) => {
-        event.confirm.reject();
-      }
-    );
-  }
-  */
 
   onEdit(event): void {
     console.log('onEdit, event=', event);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
 import { City } from '../../../interfaces/city.interface';
@@ -11,8 +11,11 @@ import { StateService } from '../../../services/state.service';
   templateUrl: './cities.component.html',
   styleUrls: ['./cities.component.scss']
 })
-export class CitiesComponent {
-  count: number;
+export class CitiesComponent implements OnInit {
+  totalCount: number;
+  pageSize = 30;
+  currentPage = 1;
+  showPerPage = 10;
   states: any;
   settings: any;
 
@@ -23,80 +26,96 @@ export class CitiesComponent {
     private route: Router,
     private stateServ: StateService,
     private cityServ: CityService) {
-
-
-    this.stateServ.getAll().subscribe(
-      (states: State[]) => {
-        this.states = states;
-        const stateList = states.map(item => {return {value: item._id, title: item.name};});
-        console.log('stateList==', stateList);
-        this.settings = {
-          mode: 'external',
-          actions: { columnTitle: '操作'},
-          add: {
-            addButtonContent: '<i class="nb-plus"></i>',
-            createButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmCreate: true
+      this.settings = {
+        mode: 'external',
+        actions: { columnTitle: '操作'},
+        add: {
+          addButtonContent: '<i class="nb-plus"></i>',
+          createButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmCreate: true
+        },
+        edit: {
+          editButtonContent: '<i class="nb-edit"></i>',
+          saveButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmSave: true
+        },
+        delete: {
+          deleteButtonContent: '<i class="nb-trash"></i>',
+          confirmDelete: true,
+        },
+        columns: {
+          name: {
+            title: '名称',
+            type: 'string',
           },
-          edit: {
-            editButtonContent: '<i class="nb-edit"></i>',
-            saveButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmSave: true
+          namet: {
+            title: '中文名称',
+            type: 'html',
+            valuePrepareFunction: (cell, row) => { 
+              return cell.zh;
+            }
           },
-          delete: {
-            deleteButtonContent: '<i class="nb-trash"></i>',
-            confirmDelete: true,
+          url: {
+            title: '链接',
+            type: 'string',
           },
-          columns: {
-            name: {
-              title: '名称',
-              type: 'string',
-            },
-            namet: {
-              title: '中文名称',
-              type: 'html',
-              valuePrepareFunction: (cell, row) => { 
-                return cell.zh;
-              }
-            },
-            url: {
-              title: '链接',
-              type: 'string',
-            },
-            state: {
-              title: '州/省',
-              type: 'html',
-              valuePrepareFunction: (cell, row) => { 
-                const theState = this.states.filter(item => item._id == cell);
-                if(theState && theState.length > 0) {
-                  return theState[0].name;
-                }
-                return cell;
-              },
-              editor: {
-                type: 'list',
-                config: {
-                  list: stateList,
-                },
-              },
-            },
+          state: {
+            title: '省/州',
+            type: 'html',
+            valuePrepareFunction: (cell, row) => { 
+              return cell.name
+            }
           },
-        };
+        },
+      };
 
-
-    
+    this.cityServ.getCount().subscribe(
+      (count: number) => {
+        this.totalCount = count;
       }
     );
+  }
 
+  ngOnInit() {
+    this.initData();
+    this.initOnChagedData();
+  }
 
-    this.cityServ.getAll().subscribe(
-      (cities: City[]) => {
-        this.count = cities.length;
-        this.source.load(cities);
+  initData(){
+    this.source = new LocalDataSource();
+    this.cityServ.getCities(this.currentPage, this.pageSize).subscribe( (result: City[]) => {
+      if(!result){
+        return;
       }
-    );
+      this.source.load(result);
+    }
+    )
+  }
+
+
+  initOnChagedData(){
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  pageChange(pageIndex) {
+    var getNew = pageIndex * this.showPerPage;
+    if( getNew >= this.source.count() && getNew < this.totalCount){
+      this.currentPage = this.currentPage + 1;
+      this.cityServ.getCities(this.currentPage, this.pageSize).subscribe( (result: City[]) => {
+        if(!result){
+          return;
+        }
+        result.forEach(element => {
+          this.source.add(element);
+        });
+      })
+    }
   }
 
   onEdit(event): void {

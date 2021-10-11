@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
 import { Degree } from '../../../interfaces/degree.interface';
@@ -11,8 +11,11 @@ import { Category } from 'app/interfaces/category.interface';
   templateUrl: './degrees.component.html',
   styleUrls: ['./degrees.component.scss']
 })
-export class DegreesComponent {
-  count: number;
+export class DegreesComponent implements OnInit {
+  totalCount: number;
+  pageSize = 30;
+  currentPage = 1;
+  showPerPage = 10;
   categories: any;
 
   settings: any;
@@ -23,78 +26,90 @@ export class DegreesComponent {
     private route: Router,
     private categoryServ: CategoryService,
     private degreeServ: DegreeService) {
+      this.settings = {
+        mode: 'external',
+        actions: { columnTitle: '操作'},
+        add: {
+          addButtonContent: '<i class="nb-plus"></i>',
+          createButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmCreate: true
+        },
+        edit: {
+          editButtonContent: '<i class="nb-edit"></i>',
+          saveButtonContent: '<i class="nb-checkmark"></i>',
+          cancelButtonContent: '<i class="nb-close"></i>',
+          confirmSave: true
+        },
+        delete: {
+          deleteButtonContent: '<i class="nb-trash"></i>',
+          confirmDelete: true,
+        },
+        columns: {
+          name: {
+            title: '名称',
+            type: 'string',
+          },
+          namet: {
+            title: '中文名称',
+            type: 'html',
+            valuePrepareFunction: (cell, row) => { 
+              return cell.zh;
+            }
+          },
+          url: {
+            title: '链接',
+            type: 'string',
+          } 
+        },
+      };
 
-    this.categoryServ.getAllByType('Degree').subscribe(
-      (categories: Category[]) => {
-        this.categories = categories;
-        const categoryList = categories.map(item => {return {value: item._id, title: item.name};});
-      
 
-        this.settings = {
-          mode: 'external',
-          actions: { columnTitle: '操作'},
-          add: {
-            addButtonContent: '<i class="nb-plus"></i>',
-            createButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmCreate: true
-          },
-          edit: {
-            editButtonContent: '<i class="nb-edit"></i>',
-            saveButtonContent: '<i class="nb-checkmark"></i>',
-            cancelButtonContent: '<i class="nb-close"></i>',
-            confirmSave: true
-          },
-          delete: {
-            deleteButtonContent: '<i class="nb-trash"></i>',
-            confirmDelete: true,
-          },
-          columns: {
-            name: {
-              title: '名称',
-              type: 'string',
-            },
-            namet: {
-              title: '中文名称',
-              type: 'html',
-              valuePrepareFunction: (cell, row) => { 
-                return cell.zh;
-              }
-            },
-            url: {
-              title: '链接',
-              type: 'string',
-            },
-            category: {
-              title: '类别',
-              type: 'html',
-              valuePrepareFunction: (cell, row) => { 
-                
-                const theCategory = this.categories.filter(item => item._id == cell);
-                if(theCategory && theCategory.length > 0) {
-                  const item = theCategory[0];
-                  return item.country.name + '-' + item.name;
-                }
-              
-                return cell;
-              },
-              editor: {
-                type: 'list',
-                config: {
-                  list: categoryList,
-                },
-              },
-            },
-          },
-        };
-      });
+      this.degreeServ.getCount().subscribe(
+        (count: number) => {
+          this.totalCount = count;
+        }
+      );
+  }
 
-    this.degreeServ.getAllWithoutDuplicate().subscribe(
-      (degrees: Degree[]) => {
-        this.count = degrees.length;
-        this.source.load(degrees);
+  ngOnInit() {
+    this.initData();
+    this.initOnChagedData();
+  }
+
+  initData(){
+    this.source = new LocalDataSource();
+    this.degreeServ.getDegrees(this.currentPage, this.pageSize).subscribe( (result: Degree[]) => {
+      if(!result){
+        return;
       }
-    );
+      this.source.load(result);
+    }
+    )
+  }
+
+
+  initOnChagedData(){
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  pageChange(pageIndex) {
+    var getNew = pageIndex * this.showPerPage;
+    if( getNew >= this.source.count() && getNew < this.totalCount){
+      this.currentPage = this.currentPage + 1;
+      this.degreeServ.getDegrees(this.currentPage, this.pageSize).subscribe( (result: Degree[]) => {
+        if(!result){
+          return;
+        }
+        result.forEach(element => {
+          this.source.add(element);
+        });
+      })
+    }
   }
 
   onEdit(event): void {

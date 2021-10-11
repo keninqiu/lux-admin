@@ -19,6 +19,14 @@ export class StateService {
     return this.api.getPrivate('state') as Observable<State[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('state/count') as Observable<number>;
+  }
+  
+  getStates(currentPage: number, pageSize: number) {
+    return this.api.getPublic('state/' + currentPage + '/' + pageSize) as Observable<State[]>;
+  }
+
   getAllByCountry(id: string): Observable<State[]> {
     return this.api.getPublic('state/country/' + id) as Observable<State[]>;
   }

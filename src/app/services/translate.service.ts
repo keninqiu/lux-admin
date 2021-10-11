@@ -19,8 +19,24 @@ export class TranslateService {
     return this.api.getPrivate('translate') as Observable<Translate[]>;
   }
 
+  getCount(): Observable<number> {
+    return this.api.getPublic('translate/count') as Observable<number>;
+  }
+  
+  getCountByType(type: string): Observable<number> {
+    return this.api.getPublic('translate/' + type + '/count') as Observable<number>;
+  }
+
+  getTranslates(currentPage: number, pageSize: number) {
+    return this.api.getPublic('translate/' + currentPage + '/' + pageSize) as Observable<Translate[]>;
+  }
+
   getAllByType(type: string): Observable<Translate[]> {
     return this.api.getPrivate('translate/type/' + type) as Observable<Translate[]>;
+  }
+
+  getTranslatesByType(type: string, currentPage: number, pageSize: number) {
+    return this.api.getPublic('translate/' + type + '/' + currentPage + '/' + pageSize) as Observable<Translate[]>;
   }
 
   get(id: string): Observable<Translate> {
