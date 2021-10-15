@@ -65,7 +65,10 @@ export class StatesComponent implements OnInit {
             title: '国家/地区',
             type: 'html',
             valuePrepareFunction: (cell, row) => { 
-              return cell.name
+              if(cell) {
+                return cell.zh;
+              }
+              return '';
             }
           },
         },

@@ -56,7 +56,10 @@ export class SchoolsComponent implements OnInit {
             title: '中文名称',
             type: 'html',
             valuePrepareFunction: (cell, row) => { 
-              return cell.zh;
+              if(cell) {
+                return cell.zh;
+              }
+              return '';
             }
           },
           url: {
